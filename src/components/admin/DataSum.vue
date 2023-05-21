@@ -6,7 +6,7 @@ const backgroundColor = computed(() => {
 	return isDark.value ? "#292E33" : "#ffffff"
 })
 const color = computed(() => {
-	return isDark.value ? "" : "#29CB97"
+	return isDark.value ? "" : "#409EFF"
 })
 
 const props = defineProps({

@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import {computed, inject, ref} from "vue";
-import type {Admin_aside} from "@/types";
+import type {Admin_aside, Tab} from "@/types";
 import {useRouter} from "vue-router";
-
-const isCollapse = ref<boolean>(true)
+import {useDark} from "@vueuse/core";
+import {useAdminStore} from "@/stores";
+//响应式变量---------------------------------------------------------------------
+const isDark = useDark()
+const router = useRouter()
+const adminStore = useAdminStore()
+//函数---------------------------------------------------------------------------
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
 const handleClose = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
-const isDark = inject("theme").isDark
-const backgroundColor = computed(() => {
-  return isDark.value ? "#16191C" : "#FFFFFF"
-})
 //左侧导航栏数据
 const asideAdminData: Admin_aside[] = [
   {
@@ -135,10 +135,11 @@ const asideAdminData: Admin_aside[] = [
     ]
   },
 ]
-const router = useRouter()
-const menuHandler = (route: string) => {
+
+const menuHandler = (route: Admin_aside) => {
+  adminStore.addTab({title: route.title, name: route.router} as Tab)
   router.push({
-    name: route
+    name: route.router
   })
 }
 
@@ -152,15 +153,12 @@ const menuHandler = (route: string) => {
     </div>
     <div class="menu">
       <el-menu
-          class="el-menu-vertical-demo"
-          :collapse="false"
-          :router="true"
           @open="handleOpen"
           @close="handleClose"
       >
         <template v-for="item in asideAdminData">
           <el-menu-item v-if="item.children == undefined" :index="item.id"
-                        @click="menuHandler(item.router as string)">
+                        @click="menuHandler(item)">
             <template #title>
               <el-icon>
                 <i :class="item.icon"></i>
@@ -176,7 +174,7 @@ const menuHandler = (route: string) => {
               <span>{{ item.title }}</span>
             </template>
             <el-menu-item v-for="subItem in item.children" :index="subItem.id"
-                          @click="menuHandler(subItem.router as string)">
+                          @click="menuHandler(subItem)">
               <template #title>
                 <el-icon>
                   <i :class="subItem.icon"></i>
@@ -195,7 +193,7 @@ const menuHandler = (route: string) => {
 aside {
   width: 255px;
   height: 100vh;
-  background-color: v-bind(backgroundColor);
+  background-color: var(--bg);
 
   .logo {
     display: flex;
@@ -210,17 +208,25 @@ aside {
 
   .menu {
     width: 100%;
+    color: var(--text);
 
     .el-menu {
       width: 100%;
       border-right: none;
+      color: var(--text);
 
       .el-sub-menu {
         width: 100%;
+
+        :deep(.el-sub-menu__title) {
+          color: var(--text);
+        }
+
       }
 
       .el-menu-item {
         width: 100%;
+        color: var(--text);
       }
     }
   }

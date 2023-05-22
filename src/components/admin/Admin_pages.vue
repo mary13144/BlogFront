@@ -26,8 +26,6 @@ const pageChange = (value: number) => {
         :page-size="props.page.page_size"
         layout="prev, pager, next"
         :total="props.total"
-        @next-click="pageChange"
-        @prev-click="pageChange"
         @current-change="pageChange"
     />
   </div>

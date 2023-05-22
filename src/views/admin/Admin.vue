@@ -1,12 +1,14 @@
 <template>
   <div class="blog_admin">
-    <Admin_aside/>
-    <div class="main">
+    <div class="left_wrapper">
+      <Admin_aside/>
+    </div>
+    <div class="right_wrapper">
       <header>
         <div class="left">
           <el-breadcrumb separator="/">
             <el-breadcrumb-item to="/admin">首页</el-breadcrumb-item>
-            <el-breadcrumb-item><a href="/">个人中心</a></el-breadcrumb-item>
+            <el-breadcrumb-item>个人中心</el-breadcrumb-item>
             <el-breadcrumb-item>用户管理</el-breadcrumb-item>
           </el-breadcrumb>
         </div>
@@ -18,9 +20,13 @@
           <UserItem/>
         </div>
       </header>
-      <div class="tabs"></div>
+      <admin_tabs></admin_tabs>
       <main>
-        <router-view></router-view>
+        <router-view v-slot="{Component}">
+          <transition name="fade" mode="out-in">
+            <component :is="Component"/>
+          </transition>
+        </router-view>
       </main>
     </div>
   </div>
@@ -29,26 +35,20 @@
 <script lang="ts" setup>
 import Theme from "@/components/Theme.vue";
 import Admin_aside from "@/components/admin/Admin_aside.vue";
-import UserItem from "@/components/UserItem.vue";
-import {computed, inject} from "vue";
-
-const isDark = inject("theme").isDark
-const backgroundColor = computed(() => {
-  return isDark.value ? "#1F2327" : "#F5F6FA"
-})
-
-const headerBackgroundColor = computed(() => {
-  return isDark.value ? "#16191C" : "#FFFFFF"
-})
+import UserItem from "@/components/User.vue";
+import Admin_tabs from "@/components/admin/Admin_tabs.vue";
 </script>
 
 <style scoped lang="scss">
-
 .blog_admin {
   width: 100%;
   display: flex;
 
-  .main {
+  .left_wrapper {
+
+  }
+
+  .right_wrapper {
     width: calc(100% - 255px);
     height: 100vh;
 
@@ -58,10 +58,13 @@ const headerBackgroundColor = computed(() => {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background-color: v-bind(headerBackgroundColor);
+      background-color: var(--bg);
+      color: var(--text);
 
       .left {
-
+        :deep(.el-breadcrumb__inner) {
+          color: var(--text);
+        }
       }
 
       .right {
@@ -73,27 +76,50 @@ const headerBackgroundColor = computed(() => {
             font-size: 25px;
             cursor: pointer;
             margin-right: 10px;
+            color: var(--icon);
           }
 
           i:hover {
-            color: $mainColor;
+            color: var(--theme);
           }
         }
 
       }
     }
 
-    .tabs {
-      height: 30px;
-      border: 1px solid #f0eeee;
-
-    }
 
     main {
       height: calc(100vh - 90px);
       padding: 30px;
-      background-color: v-bind(backgroundColor);
+      background-color: var(--main_bg);
     }
   }
+}
+
+//过渡动画
+.fade-leave-from {
+  opacity: 1;
+}
+
+.fade-leave-to {
+  transform: translateX(30px);
+  opacity: 0;
+}
+
+.fade-enter-from {
+  transform: translateX(-30px);
+  opacity: 0;
+}
+
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-leave-active {
+  transition: all 0.5s ease-out;
+}
+
+.fade-enter-active {
+  transition: all 0.5s ease-in;
 }
 </style>

@@ -1,27 +1,21 @@
 <script setup lang="ts">
-import {computed, inject, ref} from 'vue'
+import {ref} from 'vue'
 import {Refresh, Search} from "@element-plus/icons-vue";
 import type {Page} from "@/types";
 import {ElMessage} from "element-plus";
-//主题-----------------------------------------------------------------------------
-const isDark = inject("theme").isDark
-const color = computed(() => {
-  return isDark.value ? "#58585B" : "#4C4D4F"
-})
-//父组件传入的变量和函数
+//父组件传入的变量和函数-------------------------------------------------------------
 const props = defineProps<{
-  page: Page
+  page: Page,
 }>()
-const emits = defineEmits(["loadingData"])
-const isLoading = inject("loading").isloading
+const emits = defineEmits(["loadingData", "changeIsLoading"])
 //响应式变量------------------------------------------------------------------------
 const inputValue = ref('')
 //函数-----------------------------------------------------------------------------
 const refreshData = async () => {
-  isLoading.value = true
-  emits("loadingData")
+  emits("changeIsLoading")
+  await emits("loadingData")
   setTimeout(() => {
-    isLoading.value = false
+    emits("changeIsLoading")
     ElMessage.success("刷新成功")
   }, 500)
 }
@@ -63,7 +57,7 @@ const searchByKey = () => {
   justify-content: space-between;
   width: 100%;
   padding-bottom: 10px;
-  border-bottom: 1px solid v-bind(color);
+  border-bottom: 1px solid var(--border);
 
   .left {
     width: 40%;

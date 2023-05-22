@@ -1,17 +1,12 @@
 <script setup lang="ts">
-import {computed, inject, onMounted, provide, reactive, ref} from "vue";
-import Table from "@/components/admin/Table.vue";
-import Pages from "@/components/admin/Pages.vue";
+import {reactive, ref} from "vue";
+import Table from "@/components/admin/Admin_table.vue";
+import Pages from "@/components/admin/Admin_pages.vue";
 import type {Page, TableColumn, UserInfo, Userupdate} from "@/types";
 import {UserPower} from "@/types";
-import {ConsumerQuery, DeleteConsumer, UpdateConsumer} from "@/api/consumer";
+import {ConsumerDelete, ConsumerQuery, ConsumerUpdate} from "@/api/consumer";
 import {ElMessage} from "element-plus";
-import SearchInput from "@/components/admin/SearchInput.vue";
-//主题-----------------------------------------------------------------------------
-const isDark = inject("theme").isDark
-const backgroundColor = computed(() => {
-  return isDark.value ? "#292E33" : "#ffffff"
-})
+import SearchInput from "@/components/admin/Admin_search.vue";
 //固定参数--------------------------------------------------------------------------
 //用户列表表头
 const columns: TableColumn[] = [
@@ -26,7 +21,7 @@ const columns: TableColumn[] = [
   {
     title: "头像",
     prop: "avatar",
-    img: true
+    avatar: true
   },
   {
     title: "邮箱",
@@ -97,13 +92,9 @@ const userData = ref<UserInfo[]>([])
 const total = ref<number>(0)
 //加载动画
 const isLoading = ref<boolean>(false)
-provide("loading", {
-  isloading: isLoading,
-})
 //函数--------------------------------------------------------------------------------
 //加载用户列表数据
 const loadingData = async () => {
-  console.log(page, role.value)
   let res = await ConsumerQuery(page, role.value)
   if (res.code) {
     ElMessage.error(res.msg)
@@ -135,7 +126,7 @@ const updateData = async () => {
       userUpdate.role = powers[3].value
       break
   }
-  let res = await UpdateConsumer(userUpdate)
+  let res = await ConsumerUpdate(userUpdate)
   if (res.code) {
     ElMessage.error(res.msg)
     return
@@ -158,25 +149,28 @@ const deleteData = async (id: number) => {
   if (isDelete.action == 'close' || isDelete.action == 'cancel') {
     return
   }
-  let res = await DeleteConsumer(id)
+  let res = await ConsumerDelete(id)
   if (res.code) {
     ElMessage.error(res.msg)
     return
   }
   ElMessage.success(res.msg)
+  page.page_num = 1
   await loadingData()
 }
+//控制是否显示加载动画
+const changeIsLoading = () => {
+  isLoading.value = !isLoading.value
+}
 //声明周期钩子函数------------------------------------------------------------------------
-onMounted(() => {
-  loadingData()
-})
+loadingData()
 
 </script>
 
 <template>
   <div class="bg">
     <div class="search_wrapper">
-      <SearchInput :page="page" @loading-data="loadingData">
+      <SearchInput :page="page" @loading-data="loadingData" @change-is-loading="changeIsLoading">
         <el-select v-model="role" @change="loadingData" clearable placeholder="Select" size="large">
           <el-option
               v-for="item in powers"
@@ -188,16 +182,16 @@ onMounted(() => {
       </SearchInput>
     </div>
     <div class="table_wrapper" v-loading="isLoading">
-      <Table :columns="columns" :data="userData" :is-show="isShow" :is-confirm="isConfirm"
-             @updateShow="updateShow"
-             @update-data="updateData"
+      <Table :columns="columns" :data="userData" :is-loading="isLoading"
+             @update-show="updateShow"
              @delete-data="deleteData">
         <div class="update">
           <el-dialog
               v-model="isShow"
-              title="更新"
-              width="30%"
+              title="编辑"
+              width="25%"
               draggable
+              align-center
           >
             <div class="updateMain">
               <el-input v-model="userUpdate.nick_name" clearable placeholder="请输入用户名" size="large"
@@ -224,9 +218,9 @@ onMounted(() => {
             </div>
             <template #footer>
           <span class="dialog-footer">
-            <el-button @click="isShow = false">Cancel</el-button>
+            <el-button @click="isShow = false">取消</el-button>
             <el-button type="primary" @click="updateData">
-              Confirm
+              确认
             </el-button>
           </span>
             </template>
@@ -244,8 +238,9 @@ onMounted(() => {
 .bg {
   width: 100%;
   height: 100%;
-  background-color: v-bind(backgroundColor);
-  padding: 20px;
+  background-color: var(--bg);
+  padding: 30px;
+  border-radius: 15px;
 
   .table_wrapper {
     margin: 20px 0;
@@ -253,7 +248,7 @@ onMounted(() => {
     .update {
 
       .updateMain {
-        height: 200px;
+        height: 150px;
         display: flex;
         flex-direction: column;
         justify-content: space-around;

@@ -1,0 +1,21 @@
+:root {
+	--bg: #FFFFFF;
+	--main_bg: #f0eeee;
+	--theme: #409EFF;
+	--border: #e2e2e2;
+	--tableheader: #409EFF;
+	--text: #202121;
+	--icon: #67C23A;
+	--active: #66b1ff;
+}
+
+:root.dark {
+	--bg: #1D1E1F;
+	--main_bg: #39393A;
+	--theme: #409EFF;
+	--border: #636466;
+	--tableheader: #a6a9ad;
+	--text: #a6a9ad;
+	--icon: #66b1ff;
+	--active: #424243;
+}

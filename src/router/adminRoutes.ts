@@ -5,7 +5,7 @@ const adminRoutes: Array<RouteRecordRaw> = [
 	{
 		path: "/admin",
 		name: "admin",
-		component: () => import("@/views/admin/admin.vue"),
+		component: () => import("@/views/admin/Admin.vue"),
 		children: [
 			{
 				path: "",

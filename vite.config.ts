@@ -6,6 +6,7 @@ import {ElementPlusResolver} from 'unplugin-vue-components/resolvers'
 import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
+// @ts-ignore
 export default ({mode}) => {
 	const env = loadEnv(mode, process.cwd())
 	const baseUrl = env.VITE_API
@@ -25,14 +26,14 @@ export default ({mode}) => {
 				'@': fileURLToPath(new URL('./src', import.meta.url))
 			},
 		},
-		css: {
-			preprocessorOptions: {
-				scss: {
-					javascriptEnabled: true,
-					additionalData: `@import "@/assets/styles/global.scss";`,
-				},
-			},
-		},
+		// css: {
+		// 	preprocessorOptions: {
+		// 		scss: {
+		// 			javascriptEnabled: true,
+		// 			additionalData: `@import "@/assets/styles/global.scss";`,
+		// 		},
+		// 	},
+		// },
 		server: {
 			proxy: {
 				"/static": {

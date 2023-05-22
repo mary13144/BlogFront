@@ -3,9 +3,8 @@
     <div class="loginAndRegister">
       <div class="login">
         <Transition
-            name="animate__animated animate__bounce"
-            enter-avtive-class="animate__slideInDown"
-            leave-active-class="animate__zoomOut"
+            enter-avtive-class="animate__animated animate__slideInDown"
+            leave-active-class="animate__animated animate__zoomOut"
             appear
         >
           <div v-show="isShow" class="title">
@@ -13,9 +12,8 @@
           </div>
         </Transition>
         <Transition
-            name="animate__animated animate__bounce"
-            enter-active-class="animate__slideInUp"
-            leave-active-class="animate__zoomOut"
+            enter-active-class="animate__animated animate__slideInUp"
+            leave-active-class="animate__animated animate__zoomOut"
             appear
         >
           <form v-show="isShow" class="login_form">
@@ -61,9 +59,8 @@
       </div>
       <div class="register">
         <Transition
-            name="animate__animated animate__bounce"
-            enter-avtive-class="animate__slideInDown"
-            leave-active-class="animate__zoomOut"
+            enter-avtive-class="animate__animated animate__slideInDown"
+            leave-active-class="animate__animated animate__zoomOut"
             appear
         >
           <div v-show="!isShow" class="title">
@@ -71,9 +68,8 @@
           </div>
         </Transition>
         <Transition
-            name="animate__animated animate__bounce"
-            enter-active-class="animate__slideInUp"
-            leave-active-class="animate__zoomOut"
+            enter-active-class="animate__animated animate__slideInUp"
+            leave-active-class="animate__animated animate__zoomOut"
             appear
         >
           <form v-show="!isShow" class="register_form">

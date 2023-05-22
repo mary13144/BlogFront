@@ -10,6 +10,11 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Admin_aside: typeof import('./src/components/admin/Admin_aside.vue')['default']
+    Admin_dataSum: typeof import('./src/components/admin/Admin_dataSum.vue')['default']
+    Admin_pages: typeof import('./src/components/admin/Admin_pages.vue')['default']
+    Admin_search: typeof import('./src/components/admin/Admin_search.vue')['default']
+    Admin_table: typeof import('./src/components/admin/Admin_table.vue')['default']
+    Admin_tabs: typeof import('./src/components/admin/Admin_tabs.vue')['default']
     Aside: typeof import('./src/components/admin/Aside.vue')['default']
     DataSum: typeof import('./src/components/admin/DataSum.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
@@ -21,6 +26,7 @@ declare module '@vue/runtime-core' {
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElContainer: typeof import('element-plus/es')['ElContainer']
     ElDialog: typeof import('element-plus/es')['ElDialog']
+    ElDivider: typeof import('element-plus/es')['ElDivider']
     ElDropdown: typeof import('element-plus/es')['ElDropdown']
     ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
     ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
@@ -28,6 +34,7 @@ declare module '@vue/runtime-core' {
     ElFormItem: typeof import('element-plus/es')['ElFormItem']
     ElHeader: typeof import('element-plus/es')['ElHeader']
     ElIcon: typeof import('element-plus/es')['ElIcon']
+    ElImage: typeof import('element-plus/es')['ElImage']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElMain: typeof import('element-plus/es')['ElMain']
     ElMenu: typeof import('element-plus/es')['ElMenu']
@@ -44,6 +51,7 @@ declare module '@vue/runtime-core' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
+    ElUpload: typeof import('element-plus/es')['ElUpload']
     Pages: typeof import('./src/components/admin/Pages.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -51,6 +59,7 @@ declare module '@vue/runtime-core' {
     SearchInput: typeof import('./src/components/admin/SearchInput.vue')['default']
     Table: typeof import('./src/components/admin/Table.vue')['default']
     Theme: typeof import('./src/components/Theme.vue')['default']
+    User: typeof import('./src/components/User.vue')['default']
     Useritem: typeof import('./src/components/Useritem.vue')['default']
     UserItem: typeof import('./src/components/UserItem.vue')['default']
   }

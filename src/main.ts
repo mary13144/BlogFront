@@ -9,6 +9,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import "animate.css"
+import '@/assets/styles/theme.css'
 
 const app = createApp(App)
 const pinia = createPinia()

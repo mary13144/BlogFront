@@ -76,6 +76,8 @@ export interface TableColumn {
 	img?: boolean
 	option?: boolean
 	date?: boolean
+	href?: boolean
+	isShow?: boolean
 }
 
 //分页返回数据类型接口
@@ -121,7 +123,7 @@ export enum UserPower {
 }
 
 //修改用户信息数据接口
-export interface Userupdate {
+export interface UserUpdateDate {
 	user_id: number
 	nick_name: string
 	role: number | string
@@ -144,8 +146,28 @@ export enum ImageType {
 }
 
 //修改图片信息数据接口
-export interface PictureUpdate {
+export interface ImageUpdateData {
 	id: number,
 	name: string,
 	path: string,
+}
+
+//影视推荐---------------------------------------------------------------------------------------------
+//影视推荐数据接口
+export interface Video {
+	ID: number
+	title: string
+	path: string
+	href: string
+	is_show: boolean
+	CreateAt: string
+}
+
+//修改影视信息数据接口
+export interface VideoupdateData {
+	ID: number
+	title: string
+	href: string
+	path: string
+	is_show: boolean
 }

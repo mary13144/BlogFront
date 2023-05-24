@@ -1,19 +1,15 @@
 <script setup lang="ts">
 import type {Admin_aside, Tab} from "@/types";
-import {useRouter} from "vue-router";
+import {onBeforeRouteUpdate, useRouter} from "vue-router";
 import {useDark} from "@vueuse/core";
 import {useAdminStore} from "@/stores";
+import {ref} from "vue";
 //响应式变量---------------------------------------------------------------------
 const isDark = useDark()
 const router = useRouter()
 const adminStore = useAdminStore()
+const menu = ref()
 //函数---------------------------------------------------------------------------
-const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
-const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath)
-}
 //左侧导航栏数据
 const asideAdminData: Admin_aside[] = [
   {
@@ -143,18 +139,23 @@ const menuHandler = (route: Admin_aside) => {
   })
 }
 
+onBeforeRouteUpdate((to, from, next) => {
+  menu.value!.open(to.meta.index)
+  next()
+})
+
 </script>
 
 <template>
   <aside>
     <div class="logo">
-      <img v-if="!isDark" src="@/assets/image/logo.png" alt="logo">
-      <img v-else src="@/assets/image/logoNight.png" alt="logo">
+      <img v-if="!isDark" src="@/assets/image/logo.svg" alt="logo">
+      <img v-else src="@/assets/image/logoNight.svg" alt="logo">
     </div>
     <div class="menu">
       <el-menu
-          @open="handleOpen"
-          @close="handleClose"
+          ref="menu"
+          unique-opened
       >
         <template v-for="item in asideAdminData">
           <el-menu-item v-if="item.children == undefined" :index="item.id"
@@ -200,6 +201,8 @@ aside {
     align-items: center;
     justify-content: center;
     height: 90px;
+    box-sizing: content-box;
+    padding: 20px 0;
 
     img {
       height: 100%;
@@ -221,7 +224,6 @@ aside {
         :deep(.el-sub-menu__title) {
           color: var(--text);
         }
-
       }
 
       .el-menu-item {

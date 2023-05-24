@@ -2,7 +2,9 @@
 import {TableColumn} from "@/types";
 import {getFormatDateTime} from "@/utils/date";
 import {ref} from "vue";
+import {useDark} from "@vueuse/core";
 //响应式变量------------------------------------------------------------------
+const isDark = useDark()
 const index = ref<number>(1)
 //接收父组件传递的数据----------------------------------------------------------
 const props = defineProps<{
@@ -74,13 +76,28 @@ const preview = (start: number) => {
         </template>
         <template #default="scope" v-if="item?.date == true">
           <div style="display: flex; align-items: center; justify-content: center">
-            <el-tag size="large">{{ getFormatDateTime(scope.row.CreatedAt) }}</el-tag>
+            <el-tag :effect="isDark?'light':'dark'" size="large">{{ getFormatDateTime(scope.row.CreatedAt) }}</el-tag>
+          </div>
+        </template>
+        <template #default="scope" v-if="item?.isShow == true">
+          <div style="display: flex; align-items: center; justify-content: center">
+            <el-tag :effect="isDark?'light':'dark'" :type="scope.row.is_show ?'success':'info'" size="large">{{
+                scope.row.is_show ? "显示" : "不显示"
+              }}
+            </el-tag>
+          </div>
+        </template>
+        <template #default="scope" v-if="item?.href == true">
+          <div style="display: flex; align-items: center; justify-content: center">
+            <el-link :href="scope.row.href" :underline="false" target="_blank">
+              {{ scope.row.href.substring(0, 30) }}
+            </el-link>
           </div>
         </template>
         <template #default="scope" v-if="item.prop == 'action' ">
           <div style="display: flex; align-items: center; justify-content: center">
-            <el-button @click="changeData(scope.row)" type="primary" plain>编辑</el-button>
-            <el-button @click="deleteItem(scope.row.ID)" type="danger" plain>删除</el-button>
+            <el-button @click="changeData(scope.row)" type="primary" :plain="!!isDark" size="default">编辑</el-button>
+            <el-button @click="deleteItem(scope.row.ID)" type="danger" :plain="!!isDark" size="default">删除</el-button>
           </div>
         </template>
       </el-table-column>

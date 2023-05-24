@@ -1,4 +1,4 @@
-import type {Page, PageData, UserInfo, Userupdate} from "@/types";
+import type {Page, PageData, UserInfo, UserUpdateDate} from "@/types";
 import axiosRequest from "@/service/axiosRequest";
 
 //查询用户列表api
@@ -21,6 +21,6 @@ export async function ConsumerDelete(id: number) {
 }
 
 //修改用户信息api
-export async function ConsumerUpdate(data: Userupdate) {
+export async function ConsumerUpdate(data: UserUpdateDate) {
 	return await axiosRequest.put<string>("/users/update", data, {})
 }

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {reactive, ref} from "vue";
-import type {Image, Page, PictureUpdate, Result, TableColumn} from "@/types";
+import type {Image, ImageUpdateData, Page, Result, TableColumn} from "@/types";
 import {ImageType} from "@/types";
 import {ImageDelete, ImageQuery, ImageUpdate} from "@/api/imagetext";
 import {ElMessage, UploadFile, UploadFiles, UploadUserFile} from "element-plus";
-import Table from "@/components/admin/Admin_table.vue";
-import Pages from "@/components/admin/Admin_pages.vue";
-import SearchInput from "@/components/admin/Admin_search.vue";
+import Admin_table from "@/components/admin/Admin_table.vue";
+import Admin_pages from "@/components/admin/Admin_pages.vue";
+import Admin_search from "@/components/admin/Admin_search.vue";
 import {Plus} from "@element-plus/icons-vue";
 //token-----------------------------------------------------------------------------
 const token = localStorage.getItem("token");
@@ -61,7 +61,7 @@ const page = reactive<Page>({
   page_num: 1,
   page_size: 2,
 })
-const imageUpdate = ref<PictureUpdate>({
+const imageUpdate = ref<ImageUpdateData>({
   id: 0,
   name: "",
   path: "",
@@ -108,6 +108,7 @@ const updateData = async () => {
   }
   ElMessage.success(res.msg)
   await loadingData()
+  imageUpdate.value = {id: 0, name: "", path: ""}
   isShow.value = false
 }
 //删除图片
@@ -167,11 +168,12 @@ const mutiChangeData = (data: Image[]) => {
 const handleRemove = (file: UploadFile) => {
   console.log(fileList.value)
 }
-
+//上传图片预览
 const handlePictureCardPreview = (file: UploadFile) => {
   dialogImageUrl.value = file.url!
   dialogVisible.value = true
 }
+//确认上传图片
 const handlerUpload = async () => {
   uploadRef.value!.submit()
 }
@@ -229,8 +231,8 @@ loadingData()
         <el-divider border-style="dashed" style="margin: 10px 0 0 0"/>
         <template #footer>
               <span class="dialog-footer">
-                <el-button @click="isUpload = false" size="large">Cancel</el-button>
-                <el-button type="primary" @click="handlerUpload" size="large">
+                <el-button @click="isUpload = false" size="default">Cancel</el-button>
+                <el-button type="primary" @click="handlerUpload" size="default">
                   OK
                 </el-button>
               </span>
@@ -241,7 +243,7 @@ loadingData()
       </el-dialog>
     </div>
     <div class="search_wrapper">
-      <SearchInput :page="page" @loading-data="loadingData" @change-is-loading="changeIsLoading">
+      <Admin_search :page="page" @loading-data="loadingData" @change-is-loading="changeIsLoading">
         <el-select v-model="type" @change="loadingData" clearable placeholder="Select" size="large">
           <el-option
               v-for="item in imageTypes"
@@ -250,24 +252,23 @@ loadingData()
               :value="item.value"
           />
         </el-select>
-      </SearchInput>
+      </Admin_search>
     </div>
     <div class="button_wrapper">
       <el-button type="primary" size="large" @click="isUpload = true">添加</el-button>
       <el-button type="danger" v-show="mutiDelete" size="large" @click="deleteData(mutiSelection)">删除</el-button>
     </div>
     <div class="table_wrapper">
-      <Table ref="multipleTable"
-             :columns="columns"
-             :data="imageData"
-             :is-loading="isLoading"
-             :src-list="srcList"
-             :muti-delete="mutiDelete"
-             :muti-selection="mutiSelection"
-             @update-show="updateShow"
-             @delete-data="deleteData"
-             @muti-delete-show="mutiDeleteShow"
-             @muti-change-data="mutiChangeData"
+      <Admin_table ref="multipleTable"
+                   :columns="columns"
+                   :data="imageData"
+                   :is-loading="isLoading"
+                   :src-list="srcList"
+                   :muti-delete="mutiDelete"
+                   @update-show="updateShow"
+                   @delete-data="deleteData"
+                   @muti-delete-show="mutiDeleteShow"
+                   @muti-change-data="mutiChangeData"
       >
         <template #select>
           <el-table-column type="selection"></el-table-column>
@@ -310,18 +311,18 @@ loadingData()
             </div>
             <template #footer>
               <span class="dialog-footer">
-                <el-button @click="isShow = false">取消</el-button>
-                <el-button type="primary" @click="updateData">
-                  确认
+                <el-button @click="isShow = false" size="default">Cancel</el-button>
+                <el-button type="primary" @click="updateData" size="default">
+                  OK
                 </el-button>
               </span>
             </template>
           </el-dialog>
         </div>
-      </Table>
+      </Admin_table>
     </div>
     <div class="page_wrapper">
-      <Pages :total="total" :page="page" @loading-data="loadingData"></Pages>
+      <Admin_pages :total="total" :page="page" @loading-data="loadingData"></Admin_pages>
     </div>
   </div>
 </template>

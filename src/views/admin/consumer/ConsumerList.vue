@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import {reactive, ref} from "vue";
-import Table from "@/components/admin/Admin_table.vue";
-import Pages from "@/components/admin/Admin_pages.vue";
-import type {Page, TableColumn, UserInfo, Userupdate} from "@/types";
+import Admin_table from "@/components/admin/Admin_table.vue";
+import Admin_pages from "@/components/admin/Admin_pages.vue";
+import type {Page, TableColumn, UserInfo, UserUpdateDate} from "@/types";
 import {UserPower} from "@/types";
 import {ConsumerDelete, ConsumerQuery, ConsumerUpdate} from "@/api/consumer";
 import {ElMessage} from "element-plus";
-import SearchInput from "@/components/admin/Admin_search.vue";
+import Admin_search from "@/components/admin/Admin_search.vue";
 //固定参数--------------------------------------------------------------------------
 //用户列表表头
 const columns: TableColumn[] = [
@@ -76,7 +76,7 @@ const powers = [
 //控制更新用户模态框是否显示
 const isShow = ref<boolean>(false)
 //更新用户参数原有参数
-const userUpdate = reactive<Userupdate>({
+const userUpdate = ref<UserUpdateDate>({
   user_id: 0,
   nick_name: "",
   role: 1,
@@ -126,13 +126,14 @@ const updateData = async () => {
       userUpdate.role = powers[3].value
       break
   }
-  let res = await ConsumerUpdate(userUpdate)
+  let res = await ConsumerUpdate(userUpdate.value)
   if (res.code) {
     ElMessage.error(res.msg)
     return
   }
   ElMessage.success(res.msg)
   await loadingData()
+  userUpdate.value = {nick_name: "", role: 1, user_id: 0}
   isShow.value = false
 }
 //删除用户
@@ -170,7 +171,7 @@ loadingData()
 <template>
   <div class="bg">
     <div class="search_wrapper">
-      <SearchInput :page="page" @loading-data="loadingData" @change-is-loading="changeIsLoading">
+      <Admin_search :page="page" @loading-data="loadingData" @change-is-loading="changeIsLoading">
         <el-select v-model="role" @change="loadingData" clearable placeholder="Select" size="large">
           <el-option
               v-for="item in powers"
@@ -179,12 +180,12 @@ loadingData()
               :value="item.value"
           />
         </el-select>
-      </SearchInput>
+      </Admin_search>
     </div>
     <div class="table_wrapper" v-loading="isLoading">
-      <Table :columns="columns" :data="userData" :is-loading="isLoading"
-             @update-show="updateShow"
-             @delete-data="deleteData">
+      <Admin_table :columns="columns" :data="userData" :is-loading="isLoading"
+                   @update-show="updateShow"
+                   @delete-data="deleteData">
         <div class="update">
           <el-dialog
               v-model="isShow"
@@ -226,10 +227,10 @@ loadingData()
             </template>
           </el-dialog>
         </div>
-      </Table>
+      </Admin_table>
     </div>
     <div class="pages_wrapper">
-      <Pages :page="page" :total="total" @loading-data="loadingData"></Pages>
+      <Admin_pages :page="page" :total="total" @loading-data="loadingData"></Admin_pages>
     </div>
   </div>
 </template>

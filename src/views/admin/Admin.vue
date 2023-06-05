@@ -6,11 +6,7 @@
     <div class="right_wrapper">
       <header>
         <div class="left">
-          <el-breadcrumb separator="/">
-            <el-breadcrumb-item to="/admin">首页</el-breadcrumb-item>
-            <el-breadcrumb-item>个人中心</el-breadcrumb-item>
-            <el-breadcrumb-item>用户管理</el-breadcrumb-item>
-          </el-breadcrumb>
+          <Admin_crumbs/>
         </div>
         <div class="right">
           <div class="icons">
@@ -37,20 +33,23 @@ import Theme from "@/components/Theme.vue";
 import Admin_aside from "@/components/admin/Admin_aside.vue";
 import UserItem from "@/components/User.vue";
 import Admin_tabs from "@/components/admin/Admin_tabs.vue";
+import Admin_crumbs from "@/components/admin/Admin_crumbs.vue";
 </script>
 
 <style scoped lang="scss">
 .blog_admin {
   width: 100%;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
 
   .left_wrapper {
-
+    height: 100%;
   }
 
   .right_wrapper {
     width: calc(100% - 255px);
-    height: 100vh;
+    height: 100%;
 
     header {
       padding: 0 20px;
@@ -62,9 +61,7 @@ import Admin_tabs from "@/components/admin/Admin_tabs.vue";
       color: var(--text);
 
       .left {
-        :deep(.el-breadcrumb__inner) {
-          color: var(--text);
-        }
+
       }
 
       .right {
@@ -87,9 +84,9 @@ import Admin_tabs from "@/components/admin/Admin_tabs.vue";
       }
     }
 
-
     main {
-      height: calc(100vh - 90px);
+      width: 100%;
+      height: calc(100% - 90px);
       padding: 30px;
       background-color: var(--main_bg);
     }

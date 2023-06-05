@@ -20,3 +20,8 @@ export async function RegisterCode(email: string): Promise<Result<string>> {
 export async function Register(userInfo: RegisterInfo): Promise<Result<string>> {
 	return await axiosRequest.post<string>("/users/register", userInfo, {})
 }
+
+//注销api
+export async function Logout() {
+	return await axiosRequest.get<string>("/users/logout", {})
+}

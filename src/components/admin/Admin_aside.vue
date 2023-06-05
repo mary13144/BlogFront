@@ -1,17 +1,20 @@
 <script setup lang="ts">
-import type {Admin_aside, Tab} from "@/types";
-import {onBeforeRouteUpdate, useRouter} from "vue-router";
+import type {Admin_aside} from "@/types";
+import {onBeforeRouteUpdate, useRoute, useRouter} from "vue-router";
 import {useDark} from "@vueuse/core";
-import {useAdminStore} from "@/stores";
-import {ref} from "vue";
+import {useAdminStore, useLoginStore} from "@/stores";
+import {onBeforeMount, reactive, ref} from "vue";
 //响应式变量---------------------------------------------------------------------
 const isDark = useDark()
 const router = useRouter()
+const route = useRoute()
 const adminStore = useAdminStore()
+const loginStore = useLoginStore()
 const menu = ref()
+let open = reactive([])
 //函数---------------------------------------------------------------------------
 //左侧导航栏数据
-const asideAdminData: Admin_aside[] = [
+const asideAdminData = ref<Admin_aside[]>([
   {
     id: "1",
     icon: "iconfont icon-shouye",
@@ -22,6 +25,7 @@ const asideAdminData: Admin_aside[] = [
     id: "2",
     icon: "iconfont icon-gerenzhongxin",
     title: "个人中心",
+    router: "user",
     children: [
       {
         id: "2-1",
@@ -59,6 +63,7 @@ const asideAdminData: Admin_aside[] = [
     id: "3",
     icon: "iconfont icon-tuwenxiangqing",
     title: "图文管理",
+    router: "article",
     children: [
       {
         id: "3-1",
@@ -84,6 +89,7 @@ const asideAdminData: Admin_aside[] = [
     id: "4",
     icon: "iconfont icon-yonghuguanli",
     title: "用户管理",
+    router: "consumer",
     children: [
       {
         id: "4-1",
@@ -103,6 +109,7 @@ const asideAdminData: Admin_aside[] = [
     id: "5",
     icon: "iconfont icon-xitong",
     title: "系统管理",
+    router: "system",
     children: [
       {
         id: "5-1",
@@ -126,24 +133,83 @@ const asideAdminData: Admin_aside[] = [
         id: "5-4",
         icon: "iconfont icon-xiangmupeizhi",
         title: "项目配置",
-        router: "system_setting"
+        router: "setting",
+        children: [
+          {
+            id: "5-4-1",
+            icon: "iconfont icon-wangzhanshezhi",
+            title: "系统信息",
+            router: "system_web"
+          },
+          {
+            id: "5-4-2",
+            icon: "iconfont icon-youxiang",
+            title: "邮箱配置",
+            router: "system_email"
+          },
+          {
+            id: "5-4-3",
+            icon: "iconfont icon-yunshangchuan",
+            title: "图片上传",
+            router: "system_upload"
+          },
+          {
+            id: "5-4-4",
+            icon: "iconfont icon-qitapeizhi",
+            title: "其他配置",
+            router: "system_other"
+          },
+        ]
       },
     ]
   },
-]
+])
 
-const menuHandler = (route: Admin_aside) => {
-  adminStore.addTab({title: route.title, name: route.router} as Tab)
+const menuHandler = (route: Admin_aside, parent: Admin_aside | undefined, upper_parent: Admin_aside | undefined) => {
+  adminStore.addTab({title: route.title, name: route.router, parent: parent?.title, upper_parent: upper_parent?.title})
   router.push({
-    name: route.router
+    name: route.router,
+    query: {
+      title: route.title
+    }
   })
 }
 
 onBeforeRouteUpdate((to, from, next) => {
-  menu.value!.open(to.meta.index)
+  loginStore.token.user.role != 2 && menu.value!.open(to.meta.index)
   next()
 })
-
+onBeforeMount(() => {
+  open = route.meta.open
+  if (loginStore.token.user.role == 2) {
+    asideAdminData.value = [
+      {
+        id: "1",
+        icon: "iconfont icon-shouye",
+        title: "首页",
+        router: "home"
+      },
+      {
+        id: "2-1",
+        icon: "iconfont icon-wodexinxi_jibenxinxi",
+        title: "我的信息",
+        router: "user_info"
+      },
+      {
+        id: "2-4",
+        icon: "iconfont icon-wodeshoucang",
+        title: "我的收藏",
+        router: "user_collection"
+      },
+      {
+        id: "2-5",
+        icon: "iconfont icon-wodexiaoxi",
+        title: "我的消息",
+        router: "user_news"
+      },
+    ]
+  }
+})
 </script>
 
 <template>
@@ -155,11 +221,12 @@ onBeforeRouteUpdate((to, from, next) => {
     <div class="menu">
       <el-menu
           ref="menu"
+          :default-openeds="open"
           unique-opened
       >
         <template v-for="item in asideAdminData">
           <el-menu-item v-if="item.children == undefined" :index="item.id"
-                        @click="menuHandler(item)">
+                        @click.self="menuHandler(item,undefined,undefined)">
             <template #title>
               <el-icon>
                 <i :class="item.icon"></i>
@@ -174,15 +241,34 @@ onBeforeRouteUpdate((to, from, next) => {
               </el-icon>
               <span>{{ item.title }}</span>
             </template>
-            <el-menu-item v-for="subItem in item.children" :index="subItem.id"
-                          @click="menuHandler(subItem)">
-              <template #title>
-                <el-icon>
-                  <i :class="subItem.icon"></i>
-                </el-icon>
-                <span>{{ subItem.title }}</span>
-              </template>
-            </el-menu-item>
+            <template v-for="subItem in item.children">
+              <el-menu-item v-if="subItem.children == undefined" :index="subItem.id"
+                            @click="menuHandler(subItem,item,undefined)">
+                <template #title>
+                  <el-icon>
+                    <i :class="subItem.icon"></i>
+                  </el-icon>
+                  <span>{{ subItem.title }}</span>
+                </template>
+              </el-menu-item>
+              <el-sub-menu v-else :index="subItem.id">
+                <template #title>
+                  <el-icon>
+                    <i :class="subItem.icon"></i>
+                  </el-icon>
+                  <span>{{ subItem.title }}</span>
+                </template>
+                <el-menu-item v-for="sub in subItem.children" :index="sub.id"
+                              @click="menuHandler(sub,subItem,item)">
+                  <template #title>
+                    <el-icon>
+                      <i :class="sub.icon"></i>
+                    </el-icon>
+                    <span>{{ sub.title }}</span>
+                  </template>
+                </el-menu-item>
+              </el-sub-menu>
+            </template>
           </el-sub-menu>
         </template>
       </el-menu>
@@ -193,7 +279,7 @@ onBeforeRouteUpdate((to, from, next) => {
 <style scoped lang="scss">
 aside {
   width: 255px;
-  height: 100vh;
+  height: 100%;
   background-color: var(--bg);
 
   .logo {

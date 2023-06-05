@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {reactive, ref} from "vue";
+import {onMounted, reactive, ref} from "vue";
 import type {Image, ImageUpdateData, Page, Result, TableColumn} from "@/types";
 import {ImageType} from "@/types";
 import {ImageDelete, ImageQuery, ImageUpdate} from "@/api/imagetext";
@@ -16,7 +16,7 @@ const token = localStorage.getItem("token");
 const columns: TableColumn[] = [
   {
     title: "ID",
-    prop: "ID",
+    prop: "id",
   },
   {
     title: "图片名称",
@@ -24,8 +24,7 @@ const columns: TableColumn[] = [
   },
   {
     title: "图片",
-    prop: "path",
-    img: true
+    prop: "img",
   },
   {
     title: "图片类型",
@@ -33,13 +32,11 @@ const columns: TableColumn[] = [
   },
   {
     title: "上传时间",
-    prop: "CreateAt",
-    date: true
+    prop: "date",
   },
   {
     title: "操作",
     prop: "action",
-    option: true
   },
 ]
 //图片类型
@@ -53,6 +50,13 @@ const imageTypes = [
     value: ImageType.QiNiu,
   }
 ]
+//form表单验证规则
+const rules = {
+  name: [
+    {required: true, message: 'Please input name', trigger: 'blur'},
+    {min: 3, max: 20, message: 'Length should be 3 to 20', trigger: 'blur'},
+  ]
+}
 //响应式变量------------------------------------------------------------------------
 const imageData = ref<Image[]>([])
 const srcList = ref<string[]>([])
@@ -145,7 +149,7 @@ const deleteData = async (ids: number | number[]) => {
 //控制显示编辑模版
 const updateShow = (data: Image) => {
   isShow.value = true
-  imageUpdate.value.id = data.ID
+  imageUpdate.value.id = data.id
   imageUpdate.value.name = data.name
   imageUpdate.value.path = data.path
 }
@@ -161,7 +165,7 @@ const mutiDeleteShow = () => {
 const mutiChangeData = (data: Image[]) => {
   mutiSelection.value = []
   for (const item of data) {
-    mutiSelection.value.push(item.ID)
+    mutiSelection.value.push(item.id)
   }
 }
 //上传文件模态框操作函数
@@ -198,7 +202,9 @@ const handlerError = (error: Error) => {
   ElMessage.error(error.message)
 }
 //声明周期钩子函数------------------------------------------------------------------------
-loadingData()
+onMounted(() => {
+  loadingData()
+})
 </script>
 
 <template>
@@ -281,34 +287,35 @@ loadingData()
               draggable
               align-center
           >
+            <el-divider border-style="dashed" style="margin: 0 0 10px 0"/>
             <div class="updateMain">
-              <div class="input">
-                <span>
-                  图片名称：
-                </span>
-                <el-input
-                    v-model="imageUpdate.name"
-                    clearable
-                    placeholder="请输入图片名称"
-                    size="large"
-                    style="width: 70%"
-                />
-              </div>
-
-              <div class="image">
-                <span>
-                  图片预览：
-                </span>
-                <el-image
-                    style="width: 120px; height: 75px;border-radius: 8px"
-                    :src="imageUpdate.path"
-                    fit="cover"
-                    loading="lazy"
-                    lazy
-                />
-              </div>
+              <el-form
+                  :model="imageUpdate"
+                  :rules="rules"
+                  size="default"
+                  label-width="120px"
+                  status-icon
+              >
+                <el-form-item label="图片名称：" prop="name">
+                  <el-input
+                      v-model="imageUpdate.name"
+                      clearable
+                      placeholder="请输入图片名称"
+                  />
+                </el-form-item>
+                <el-form-item label="图片预览：">
+                  <el-image
+                      style="width: 120px; height: 75px;border-radius: 8px"
+                      :src="imageUpdate.path"
+                      fit="cover"
+                      loading="lazy"
+                      lazy
+                  />
+                </el-form-item>
+              </el-form>
 
             </div>
+            <el-divider border-style="dashed" style="margin: 0 0 10px 0"/>
             <template #footer>
               <span class="dialog-footer">
                 <el-button @click="isShow = false" size="default">Cancel</el-button>
@@ -334,6 +341,7 @@ loadingData()
   background-color: var(--bg);
   padding: 30px;
   border-radius: 15px;
+  overflow-y: auto;
 
   .upload_wrapper {
     width: 100%;
@@ -351,34 +359,13 @@ loadingData()
     margin: 20px 0;
 
     .update {
+
+      :deep(.el-dialog__body) {
+        padding: 0;
+      }
+
       .updateMain {
-        height: 150px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
-
-        .input {
-          width: 80%;
-          display: flex;
-          align-items: center;
-
-          span {
-            font-weight: bold;
-            margin-right: 10px;
-          }
-        }
-
-        .image {
-          width: 80%;
-          display: flex;
-          align-items: start;
-
-          span {
-            font-weight: bold;
-            margin-right: 10px;
-          }
-        }
+        padding: 10px 40px;
       }
     }
   }

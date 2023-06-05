@@ -1,5 +1,8 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import AdminRoutes from "@/router/adminRoutes";
+// @ts-ignore
+import {ElMessage} from "element-plus";
+import {useLoginStore} from "@/stores";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,6 +10,9 @@ const router = createRouter({
 		{
 			path: "/login",
 			name: "login",
+			meta: {
+				is_login: false
+			},
 			component: () => import("@/views/Login.vue")
 		},
 		...AdminRoutes
@@ -14,3 +20,14 @@ const router = createRouter({
 })
 
 export default router
+router.beforeEach((to, form, next) => {
+	const loginStore = useLoginStore()
+	if (to.meta.is_login && loginStore.token.user.role === 0) {
+		ElMessage.warning("请登录后重新操作")
+		router.push({
+			name: "login"
+		})
+		return
+	}
+	next()
+})

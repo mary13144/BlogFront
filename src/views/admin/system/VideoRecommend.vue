@@ -2,7 +2,7 @@
 import Admin_search from "@/components/admin/Admin_search.vue";
 import Admin_table from "@/components/admin/Admin_table.vue";
 import Admin_pages from "@/components/admin/Admin_pages.vue";
-import type {Page, TableColumn, Video, VideoupdateData} from "@/types";
+import type {Page, TableColumn, Video, VideoData} from "@/types";
 import {onMounted, reactive, ref} from "vue";
 import {VideoCreate, VideoDelete, VideoQuery, VideoUpdate} from "@/api/system";
 import {ElMessage} from "element-plus";
@@ -10,7 +10,7 @@ import {ElMessage} from "element-plus";
 const columns: TableColumn[] = [
   {
     title: "ID",
-    prop: "ID",
+    prop: "id",
   },
   {
     title: "影视名称",
@@ -18,28 +18,23 @@ const columns: TableColumn[] = [
   },
   {
     title: "影视图片",
-    prop: "path",
-    img: true,
+    prop: "img",
   },
   {
     title: "链接",
     prop: "href",
-    href: true,
   },
   {
     title: "是否显示",
     prop: "is_show",
-    isShow: true,
   },
   {
     title: "创建时间",
-    prop: "CreateAt",
-    date: true,
+    prop: "date",
   },
   {
     title: "操作",
     prop: "action",
-    option: true
   },
 ]
 //响应式变量-------------------------------------------------------------------
@@ -60,16 +55,16 @@ const isShow = ref<boolean>(false)
 //控制显示添加模态框
 const isAdd = ref<boolean>(false)
 //影视推荐更新数据
-const videoUpdate = ref<VideoupdateData>({
-  ID: 0,
+const videoUpdate = ref<VideoData>({
+  id: 0,
   href: "",
   is_show: false,
   path: "",
   title: ""
 })
 //影视推荐添加数据
-const videoCreate = ref<VideoupdateData>({
-  ID: 0,
+const videoCreate = ref<VideoData>({
+  id: 0,
   href: "",
   is_show: false,
   path: "",
@@ -103,7 +98,6 @@ const loadingData = async () => {
   for (const video of videoData.value) {
     srcList.value.push(video.path)
   }
-
 }
 //删除影视推荐信息
 const deleteData = async (ids: number | number[]) => {
@@ -119,6 +113,7 @@ const deleteData = async (ids: number | number[]) => {
   if (isDelete.action == 'close' || isDelete.action == 'cancel') {
     return
   }
+  console.log(ids)
   let id_list: number[] = []
   if (typeof ids == "number") {
     id_list.push(ids)
@@ -145,7 +140,7 @@ const updateData = async () => {
   }
   ElMessage.success(res.msg)
   await loadingData()
-  videoUpdate.value = {ID: 0, href: "", is_show: false, path: "", title: ""}
+  videoUpdate.value = {id: 0, href: "", is_show: false, path: "", title: ""}
   isShow.value = false
 }
 //添加影视推荐信息
@@ -157,7 +152,7 @@ const createData = async () => {
   }
   ElMessage.success(res.msg)
   await loadingData()
-  videoUpdate.value = {ID: 0, href: "", is_show: false, path: "", title: ""}
+  videoCreate.value = {id: 0, href: "", is_show: false, path: "", title: ""}
   isAdd.value = false
 }
 //控制是否显示多选删除按钮
@@ -168,7 +163,7 @@ const mutiDeleteShow = () => {
 const mutiChangeData = (data: Video[]) => {
   mutiSelection.value = []
   for (const item of data) {
-    mutiSelection.value.push(item.ID)
+    mutiSelection.value.push(item.id)
   }
 }
 //控制是否显示加载动画
@@ -183,7 +178,7 @@ const updateShow = (data: Video) => {
   videoUpdate.value.href = data.href
   videoUpdate.value.path = data.path
   videoUpdate.value.is_show = data.is_show
-  videoUpdate.value.ID = data.ID
+  videoUpdate.value.id = data.id
 }
 
 //生命周期钩子函数---------------------------------------------------------------
@@ -203,11 +198,12 @@ onMounted(() => {
           align-center
       >
         <el-divider border-style="dashed" style="margin: 0 0 10px 0"/>
-        <div class="updateMain">
+        <div class="addMain">
           <el-form
               :model="videoCreate"
               :rules="rules"
               size="default"
+              label-width="100px"
               status-icon
           >
             <el-form-item label="影视名称：" prop="title">
@@ -320,6 +316,17 @@ onMounted(() => {
   background-color: var(--bg);
   padding: 30px;
   border-radius: 15px;
+  overflow-y: auto;
+
+  .add_wrapper {
+    :deep(.el-dialog__body) {
+      padding: 0;
+    }
+
+    .addMain {
+      padding: 10px 40px;
+    }
+  }
 
   .button_wrapper {
     margin: 20px 0;

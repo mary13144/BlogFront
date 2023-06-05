@@ -9,7 +9,8 @@ export const useAdminStore = defineStore("admin", {
 				title: "首页",
 				name: 'home'
 			},
-		]
+		],
+		crumbList: <string[]>[]
 	}),
 	getters: {},
 	actions: {
@@ -17,7 +18,19 @@ export const useAdminStore = defineStore("admin", {
 			if (this.tabList.findIndex((item: Tab) => (item.name == tab.name)) != -1) {
 				return
 			}
+			if (this.tabList.length >= 10) {
+				this.tabList.splice(1, 1)
+			}
 			this.tabList.push(tab)
+			let crumb: string[] = []
+			if (tab.upper_parent) {
+				crumb.push(tab.upper_parent)
+			}
+			if (tab.parent) {
+				crumb.push(tab.parent)
+			}
+			crumb.push(tab.title)
+			this.setCrumbs(crumb)
 		},
 		removeTab(tab: Tab) {
 			let index: number = this.tabList.findIndex((item: Tab) => {
@@ -29,8 +42,12 @@ export const useAdminStore = defineStore("admin", {
 		removeAll() {
 			this.tabList = [{
 				title: "首页",
-				name: 'home'
+				name: 'home',
 			}]
+			this.setCrumbs([])
+		},
+		setCrumbs(data: string[]) {
+			this.crumbList = data
 		}
 	},
 	persist: {

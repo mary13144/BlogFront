@@ -7,6 +7,7 @@
 	--text: #202121;
 	--icon: #67C23A;
 	--active: #66b1ff;
+	--text_bg: #d2d2d2;
 }
 
 :root.dark {
@@ -18,4 +19,5 @@
 	--text: #a6a9ad;
 	--icon: #66b1ff;
 	--active: #424243;
+	--text_bg: #CFD3DC;
 }

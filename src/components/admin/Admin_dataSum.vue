@@ -18,14 +18,14 @@ const props = defineProps({
 <template>
   <div class="dataShow">
     <div class="icon">
-      <i :class="'iconfont '+icon"></i>
+      <i :class="'iconfont '+props.icon"></i>
     </div>
     <div class="text">
       <h3 class="dataTitle">
-        {{ title }}
+        {{ props.title }}
       </h3>
       <span class="dataNumber">
-          {{ data }}
+          {{ props.data }}
       </span>
     </div>
   </div>

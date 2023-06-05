@@ -8,9 +8,28 @@ const route = useRoute()
 const router = useRouter()
 //函数--------------------------------------------------------------------
 //点击tab跳转对应页面
-const skipView = (path: string) => {
+const skipView = (item: Tab) => {
+  if (item.name != 'home') {
+    //面包屑
+    let crumb: string[] = []
+    if (item.upper_parent) {
+      crumb.push(item.upper_parent)
+    }
+    if (item.parent) {
+      crumb.push(item.parent)
+    }
+    crumb.push(item.title)
+    adminStore.setCrumbs(crumb)
+  }
+  //路由跳转
   router.push({
-    name: path
+    name: item.name,
+    params: {
+      ...item.params
+    },
+    query: {
+      title: item.title
+    }
   })
 }
 //点击删除对应的tab
@@ -18,8 +37,23 @@ const deleteTab = (tab: Tab) => {
   let index = adminStore.removeTab(tab)
   //说明删除的是当前页面,跳转到前一个页面
   if (route.name == tab.name) {
+    let crumb: string[] = []
+    if (adminStore.tabList[index - 1].upper_parent) {
+      crumb.push(adminStore.tabList[index - 1].upper_parent!)
+    }
+    if (adminStore.tabList[index - 1].parent) {
+      crumb.push(adminStore.tabList[index - 1].parent!)
+    }
+    crumb.push(adminStore.tabList[index - 1].title)
+    adminStore.setCrumbs(crumb)
     router.push({
-      name: adminStore.tabList[index - 1].name
+      name: adminStore.tabList[index - 1].name,
+      params: {
+        ...adminStore.tabList[index - 1].params
+      },
+      query: {
+        title: adminStore.tabList[index - 1].title
+      }
     })
   }
 }
@@ -27,7 +61,10 @@ const deleteTab = (tab: Tab) => {
 const deleteAll = () => {
   adminStore.removeAll()
   router.push({
-    name: 'home'
+    name: 'home',
+    query: {
+      title: "首页"
+    }
   })
 }
 
@@ -38,7 +75,7 @@ const deleteAll = () => {
     <el-tag
         class="tabItem"
         v-for="(item,index) in adminStore.tabList"
-        @click="skipView(item.name)"
+        @click="skipView(item)"
         @close="deleteTab(item)"
         :closable="item.name!='home'"
         :effect="route.name == item.name?'dark':'light'"

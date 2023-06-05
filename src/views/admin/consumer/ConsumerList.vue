@@ -12,7 +12,7 @@ import Admin_search from "@/components/admin/Admin_search.vue";
 const columns: TableColumn[] = [
   {
     title: "ID",
-    prop: "ID",
+    prop: "id",
   },
   {
     title: "昵称",
@@ -45,12 +45,11 @@ const columns: TableColumn[] = [
   },
   {
     title: "注册时间",
-    prop: "CreatedAt",
-    date: true
+    prop: "date",
   },
   {
     title: "操作",
-    prop: "action"
+    prop: "action",
   }
 ]
 //权限列表
@@ -72,6 +71,13 @@ const powers = [
     value: UserPower.PermissionDisableUser,
   },
 ]
+//form表单验证规则
+const rules = {
+  nick_name: [
+    {required: true, message: 'Please input nickname', trigger: 'blur'},
+    {min: 3, max: 10, message: 'Length should be 3 to 10', trigger: 'blur'},
+  ]
+}
 //响应式变量-------------------------------------------------------------------------
 //控制更新用户模态框是否显示
 const isShow = ref<boolean>(false)
@@ -106,24 +112,24 @@ const loadingData = async () => {
 //更新展示用户信息
 const updateShow = (data: UserInfo) => {
   isShow.value = true
-  userUpdate.user_id = data.ID
-  userUpdate.nick_name = data.nick_name
-  userUpdate.role = data.role
+  userUpdate.value.user_id = data.id
+  userUpdate.value.nick_name = data.nick_name
+  userUpdate.value.role = data.role
 }
 //更新用户信息
 const updateData = async () => {
-  switch (userUpdate.role) {
+  switch (userUpdate.value.role) {
     case powers[0].label:
-      userUpdate.role = powers[0].value
+      userUpdate.value.role = powers[0].value
       break
     case powers[1].label:
-      userUpdate.role = powers[1].value
+      userUpdate.value.role = powers[1].value
       break
     case powers[2].label:
-      userUpdate.role = powers[2].value
+      userUpdate.value.role = powers[2].value
       break
     case powers[3].label:
-      userUpdate.role = powers[3].value
+      userUpdate.value.role = powers[3].value
       break
   }
   let res = await ConsumerUpdate(userUpdate.value)
@@ -194,36 +200,38 @@ loadingData()
               draggable
               align-center
           >
+            <el-divider border-style="dashed" style="margin: 0 0 10px 0"/>
             <div class="updateMain">
-              <el-input v-model="userUpdate.nick_name" clearable placeholder="请输入用户名" size="large"
-                        style="width: 60%">
-                <template #prefix>
-                  <span>
-                    昵称：
-                  </span>
-                </template>
-              </el-input>
-              <el-select v-model="userUpdate.role" class="m-2" placeholder="Select" size="large" style="width: 60%;">
-                <el-option
-                    v-for="item in powers"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                />
-                <template #prefix>
-                  <span>
-                    权限：
-                  </span>
-                </template>
-              </el-select>
+              <el-form
+                  :model="userUpdate"
+                  :rules="rules"
+                  size="default"
+                  label-width="80px"
+                  status-icon
+              >
+                <el-form-item label="昵称：" prop="nick_name">
+                  <el-input v-model="userUpdate.nick_name" clearable placeholder="请输入用户名"/>
+                </el-form-item>
+                <el-form-item label="权限：">
+                  <el-select v-model="userUpdate.role" placeholder="Select" style="width: 100%">
+                    <el-option
+                        v-for="item in powers"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    />
+                  </el-select>
+                </el-form-item>
+              </el-form>
             </div>
+            <el-divider border-style="dashed" style="margin: 0 0 10px 0"/>
             <template #footer>
-          <span class="dialog-footer">
-            <el-button @click="isShow = false">取消</el-button>
-            <el-button type="primary" @click="updateData">
-              确认
-            </el-button>
-          </span>
+                <span class="dialog-footer">
+                  <el-button @click="isShow = false">取消</el-button>
+                  <el-button type="primary" @click="updateData">
+                    确认
+                  </el-button>
+                </span>
             </template>
           </el-dialog>
         </div>
@@ -242,18 +250,19 @@ loadingData()
   background-color: var(--bg);
   padding: 30px;
   border-radius: 15px;
+  overflow-y: auto;
 
   .table_wrapper {
     margin: 20px 0;
 
     .update {
 
+      &:deep(.el-dialog__body) {
+        padding: 0;
+      }
+
       .updateMain {
-        height: 150px;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-around;
-        align-items: center;
+        padding: 10px 40px;
       }
     }
   }

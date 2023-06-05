@@ -74,13 +74,12 @@ import type {Result} from "@/types";
 let cacheRequest = (function () {
 	let cacheList: Set<string> = new Set()
 	let cacheMemory: Map<string, Result<any>> = new Map()
-	return function (config: AxiosRequestConfig): Promise<Result<any>> {
+	return function <T>(config: AxiosRequestConfig): Promise<Result<T>> {
 		let url = config.url as string
 		let method = config.method as string
 		let key = url + method
 		if (cacheMemory.has(key)) {
-			// @ts-ignore
-			return cacheMemory.get(key);
+			return Promise.resolve(cacheMemory.get(key)!);
 		} else {
 			if (cacheList.has(key)) {
 				return Promise.reject({mes: "请求已经提交"})

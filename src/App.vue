@@ -6,6 +6,7 @@ const zIndex = 3000
 const size = 'small'
 let loginStore = useLoginStore()
 loginStore.loading()
+
 </script>
 
 <template>

@@ -219,9 +219,13 @@ const loginHandler = async () => {
     await loading()
     return
   }
+  let token = ParesToken(res.data)
+  if (token.user.role == 4) {
+    ElMessage.warning("该用户已被禁止登录")
+    return
+  }
   //持久化
   localStorage.setItem("token", res.data)
-  let token = ParesToken(res.data)
   token.exp *= 1000
   loginStore.setting(token)
   //登陆完成跳转
@@ -250,6 +254,8 @@ const registerHandler = async () => {
     return
   }
   ElMessage.success(res.msg)
+  showLogin()
+
 }
 //发送验证码
 const isDisable = ref<boolean>(false)

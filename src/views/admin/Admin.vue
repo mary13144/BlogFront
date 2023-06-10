@@ -13,7 +13,7 @@
             <i class="iconfont icon-shouye"></i>
             <Theme/>
           </div>
-          <UserItem/>
+          <User :is-avatar="true"/>
         </div>
       </header>
       <admin_tabs></admin_tabs>
@@ -31,15 +31,17 @@
 <script lang="ts" setup>
 import Theme from "@/components/Theme.vue";
 import Admin_aside from "@/components/admin/Admin_aside.vue";
-import UserItem from "@/components/User.vue";
 import Admin_tabs from "@/components/admin/Admin_tabs.vue";
 import Admin_crumbs from "@/components/admin/Admin_crumbs.vue";
+import User from "@/components/User.vue";
 </script>
 
 <style scoped lang="scss">
 .blog_admin {
   width: 100%;
   height: 100vh;
+  min-width: 1200px;
+  min-height: 800px;
   overflow: hidden;
   display: flex;
 
@@ -61,12 +63,14 @@ import Admin_crumbs from "@/components/admin/Admin_crumbs.vue";
       color: var(--text);
 
       .left {
-
+        min-width: 300px;
       }
 
       .right {
         display: flex;
         align-items: center;
+        justify-content: flex-end;
+        min-width: 500px;
 
         .icons {
           i {
@@ -87,6 +91,8 @@ import Admin_crumbs from "@/components/admin/Admin_crumbs.vue";
     main {
       width: 100%;
       height: calc(100% - 90px);
+      min-width: 1000px;
+      min-height: 700px;
       padding: 30px;
       background-color: var(--main_bg);
     }

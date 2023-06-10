@@ -14,3 +14,13 @@ export function getFormatDateTime(dateStr: string): string {
 	return year + "-" + month + "-" + day
 		+ " " + hour + ":" + minutes + ":" + seconds;
 }
+
+export function getFormatDate(dateStr: string): string {
+	let date = new Date(dateStr);
+	let year = date.getFullYear();
+	let month: string | number = date.getMonth() + 1;
+	let day: string | number = date.getDate();
+	month = (month < 10) ? '0' + month : month;
+	day = (day < 10) ? '0' + day : day;
+	return year + "-" + month + "-" + day;
+}

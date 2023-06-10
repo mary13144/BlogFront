@@ -97,6 +97,7 @@ const deleteAll = () => {
 <style scoped lang="scss">
 .tabs {
   height: 30px;
+  min-width: 1000px;
   width: 100%;
   background-color: var(--bg);
   border-width: 1px 0 1px 0;

@@ -73,7 +73,7 @@ onBeforeMount(() => {
   border-radius: 15px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow: auto;
 
   .data_display {
     display: flex;

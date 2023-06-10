@@ -215,8 +215,8 @@ onBeforeMount(() => {
 <template>
   <aside>
     <div class="logo">
-      <img v-if="!isDark" src="@/assets/image/logo.svg" alt="logo">
-      <img v-else src="@/assets/image/logoNight.svg" alt="logo">
+      <img v-if="!isDark" src="/resources/image/logo.svg" alt="logo">
+      <img v-else src="/resources/image/logoNight.svg" alt="logo">
     </div>
     <div class="menu">
       <el-menu

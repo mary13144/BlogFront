@@ -22,17 +22,15 @@ export interface ImageUpdateData {
 }
 
 //tag
-export interface Tags {
-	id: number
+export interface Tag {
 	tag: string
 	count: number
-	articles: string[]
-	created_at: string
 }
 
 //文章列表-----------------------------------------------------------------------
 export interface Article {
 	id: string
+	created_at: string
 	title: string
 	keyword: string
 	abstract: string

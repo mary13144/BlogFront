@@ -18,5 +18,19 @@ loginStore.loading()
 <style lang="scss">
 * {
   box-sizing: border-box;
+  font-family: Bitter, "Noto Serif SC", SimSun, Times New Roman, Times, serif, Segoe UI Emoji, Segoe UI Symbol, Apple Color Emoji, "Noto Serif CJK SC";
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #b6b1b2;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
 }
 </style>

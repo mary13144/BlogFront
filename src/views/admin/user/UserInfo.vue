@@ -434,6 +434,7 @@ onMounted(() => {
   .info {
     width: 1000px;
 
+
     .title {
       text-align: center;
       font-size: 25px;
@@ -442,7 +443,7 @@ onMounted(() => {
     }
 
     .user_info, .button_wrapper {
-      margin-bottom: 40px;
+      padding-bottom: 40px;
 
       .subTitle {
         display: flex;

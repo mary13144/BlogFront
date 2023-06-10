@@ -26,14 +26,14 @@ export default ({mode}) => {
 				'@': fileURLToPath(new URL('./src', import.meta.url))
 			},
 		},
-		// css: {
-		// 	preprocessorOptions: {
-		// 		scss: {
-		// 			javascriptEnabled: true,
-		// 			additionalData: `@import "@/assets/styles/global.scss";`,
-		// 		},
-		// 	},
-		// },
+		css: {
+			preprocessorOptions: {
+				scss: {
+					javascriptEnabled: true,
+					additionalData: `@import "@/assets/styles/global.scss";`,
+				},
+			},
+		},
 		server: {
 			proxy: {
 				"/static": {

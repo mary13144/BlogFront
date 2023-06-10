@@ -4,10 +4,13 @@
 	--theme: #409EFF;
 	--border: #e2e2e2;
 	--tableheader: #409EFF;
-	--text: #202121;
+	--text: rgb(55, 65, 81);
 	--icon: #67C23A;
 	--active: #66b1ff;
 	--text_bg: #d2d2d2;
+	--li_3: #e2e6e8;
+	--li_border: #414243;
+	--text_light: #000000;
 }
 
 :root.dark {
@@ -20,4 +23,7 @@
 	--icon: #66b1ff;
 	--active: #424243;
 	--text_bg: #CFD3DC;
+	--li_3: #393a3c;
+	--li_border: #636466;
+	--text_light: #ffffff;
 }

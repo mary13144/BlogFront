@@ -35,7 +35,6 @@ export interface Menu {
 	path: string
 	slogan: string
 	abstract: string[]
-	abstract_time: number
 	banners: Banner[]
 	banner_time: number
 	sort: number
@@ -48,7 +47,6 @@ export interface MenuData {
 	path: string
 	slogan: string
 	abstract: string[]
-	abstract_time: number
 	image_list: ImageSort[]
 	banner_time: number
 	sort: number

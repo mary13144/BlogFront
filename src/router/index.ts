@@ -3,6 +3,7 @@ import AdminRoutes from "@/router/adminRoutes";
 // @ts-ignore
 import {ElMessage} from "element-plus";
 import {useLoginStore} from "@/stores";
+import BlogRoutes from "@/router/blogRoutes";
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +16,7 @@ const router = createRouter({
 			},
 			component: () => import("@/views/Login.vue")
 		},
+		...BlogRoutes,
 		...AdminRoutes
 	]
 })

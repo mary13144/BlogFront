@@ -9,6 +9,9 @@ import {Logout} from "@/api/login";
 const router = useRouter()
 const adminStore = useAdminStore()
 const loginStore = useLoginStore()
+const props = defineProps<{
+  isAvatar: boolean
+}>()
 
 const dropDown = reactive([
   {
@@ -66,7 +69,7 @@ onBeforeMount(() => {
 
 <template>
   <div class="user">
-    <div class="avatar">
+    <div class="avatar" v-if="props.isAvatar">
       <el-avatar
           :src="loginStore.token.user.avatar"/>
     </div>

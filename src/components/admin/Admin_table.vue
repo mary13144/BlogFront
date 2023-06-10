@@ -89,6 +89,9 @@ const width = (item: TableColumn) => {
               @selection-change="handleSelectionChange"
               max-height="550">
       <slot name="select"></slot>
+      <template #empty>
+        <el-empty/>
+      </template>
       <el-table-column v-for="item in props.columns" :width="width(item)" :label="item.title"
                        :prop="item.prop" align="center">
         <template #default="scope" v-if="item.avatar == true ">
@@ -148,7 +151,10 @@ const width = (item: TableColumn) => {
         </template>
         <template #default="scope" v-if="item.prop == 'date'">
           <div style="display: flex; align-items: center; justify-content: center">
-            <el-tag :effect="isDark?'light':'dark'" size="large">{{ getFormatDateTime(scope.row.created_at) }}</el-tag>
+            <el-tag :effect="isDark?'light':'dark'" size="large">{{
+                getFormatDateTime(scope.row.created_at)
+              }}
+            </el-tag>
           </div>
         </template>
         <template #default="scope" v-if="item.prop == 'is_show'">
@@ -237,12 +243,14 @@ const width = (item: TableColumn) => {
         <template #default="scope" v-if="item.prop == 'action' ">
           <div style="display: flex; align-items: center; justify-content: center">
             <el-button @click="changeData(scope.row)" type="primary" :plain="!!isDark" size="default">编辑</el-button>
-            <el-button @click="deleteItem(scope.row.id)" type="danger" :plain="!!isDark" size="default">删除</el-button>
+            <el-button @click="deleteItem(scope.row.id)" type="danger" :plain="!!isDark" size="default">删除
+            </el-button>
           </div>
         </template>
         <template #default="scope" v-if="item.prop == 'delete' ">
           <div style="display: flex; align-items: center; justify-content: center">
-            <el-button @click="deleteItem(scope.row.id)" type="danger" :plain="!!isDark" size="default">删除</el-button>
+            <el-button @click="deleteItem(scope.row.id)" type="danger" :plain="!!isDark" size="default">删除
+            </el-button>
           </div>
         </template>
         <template #default="scope" v-if="item.prop == 'art_action' ">
@@ -259,6 +267,8 @@ const width = (item: TableColumn) => {
           </div>
         </template>
       </el-table-column>
+
+
     </el-table>
     <slot></slot>
   </div>
@@ -271,7 +281,7 @@ const width = (item: TableColumn) => {
 }
 
 em {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
   color: red;
 }

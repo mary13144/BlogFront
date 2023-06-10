@@ -173,19 +173,6 @@ onMounted(() => {
         height: 500px;
         overflow-y: auto;
 
-        &::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          border-radius: 10px;
-          background-color: #b6b1b2;
-        }
-
-        &::-webkit-scrollbar-button {
-          background-color: transparent;
-        }
-
         .message {
           & > div {
             display: flex;

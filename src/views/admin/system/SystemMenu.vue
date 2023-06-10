@@ -28,10 +28,6 @@ const columns: TableColumn[] = [
     prop: "strings",
   },
   {
-    title: "简介浮现时间",
-    prop: "abstract_time",
-  },
-  {
     title: "Banner切换时间",
     prop: "banner_time",
   },
@@ -80,7 +76,6 @@ const selectList = ref<number[]>([])
 const menuUpdate = ref<MenuData>({
   id: 0,
   abstract: [],
-  abstract_time: 0,
   banner_time: 0,
   image_list: [],
   path: "",
@@ -92,7 +87,6 @@ const menuUpdate = ref<MenuData>({
 const menuCreate = ref<MenuData>({
   id: 0,
   abstract: [],
-  abstract_time: 1,
   banner_time: 1,
   image_list: [],
   path: "",
@@ -155,7 +149,6 @@ const updateData = async () => {
   menuUpdate.value = {
     id: 0,
     abstract: [],
-    abstract_time: 1,
     banner_time: 1,
     image_list: [],
     path: "",
@@ -164,11 +157,11 @@ const updateData = async () => {
     title: ""
   }
   isShow.value = false
+  console.log(menuUpdate.value)
 }
 //添加menu信息
 const createData = async () => {
   menuCreate.value.abstract = abstract.value.split("\n")
-  console.log(menuCreate.value)
   let res = await MenuCreate(menuCreate.value)
   if (res.code) {
     ElMessage.error(res.msg)
@@ -178,7 +171,6 @@ const createData = async () => {
   await loadingData()
   menuCreate.value = {
     abstract: [],
-    abstract_time: 1,
     banner_time: 1,
     id: 0,
     image_list: [],
@@ -216,9 +208,9 @@ const updateShow = (data: Menu) => {
   for (const item of data.abstract) {
     abstract.value += item + '\n'
   }
-  menuUpdate.value.abstract_time = data.abstract_time
   menuUpdate.value.banner_time = data.banner_time
   menuUpdate.value.sort = data.sort
+  menuUpdate.value.image_list = []
   selectList.value = []
   for (let i = 0; i < data.banners.length; i++) {
     menuUpdate.value.image_list.push({
@@ -296,9 +288,6 @@ onMounted(() => {
             </el-form-item>
             <el-form-item label="简介：">
               <el-input v-model.lazy="abstract" type="textarea"/>
-            </el-form-item>
-            <el-form-item label="简介时间：" required>
-              <el-input-number v-model.number="menuCreate.abstract_time" min="1" max="10"/>
             </el-form-item>
             <el-form-item label="Banner时间：" required>
               <el-input-number v-model.number="menuCreate.banner_time" min="1" max="30"/>
@@ -385,9 +374,6 @@ onMounted(() => {
                 </el-form-item>
                 <el-form-item label="简介：">
                   <el-input v-model="abstract" type="textarea"/>
-                </el-form-item>
-                <el-form-item label="简介时间：" required>
-                  <el-input-number v-model="menuUpdate.abstract_time" min="1" max="10"/>
                 </el-form-item>
                 <el-form-item label="Banner时间：" required>
                   <el-input-number v-model="menuUpdate.banner_time" min="1" max="30"/>

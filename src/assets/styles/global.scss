@@ -1,0 +1,48 @@
+//媒体查询断点
+$breakpoints: (
+		'phone':(
+				320px,
+				480px,
+		),
+		'pad':(
+				481px,
+				1020px,
+		),
+		'notebook':(
+				1021px,
+				1400px,
+		),
+		'tv':1401px,
+);
+//媒体查询通用混合
+@mixin respond-to($breakname) {
+	$point: map-get($breakpoints, $breakname);
+	@if type-of($point) == 'list' {
+		$min: nth($point, 1);
+		$max: nth($point, 2);
+		@media (min-width: $min) and (max-width: $max) {
+			@content;
+		}
+	} @else {
+		$min: nth($point, 1);
+		@media (min-width: $min) {
+			@content;
+		}
+	}
+};
+
+.clearfix {
+	&:after{
+		content: "";
+		display: table;
+		clear: both;
+	}
+}
+
+@font-face {
+	font-family: 'Bitter';
+	src: url('@/assets/fonts/Bitter-VariableFont_wght.ttf');
+	font-weight: normal;
+	font-style: normal;
+}
+

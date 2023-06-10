@@ -1,5 +1,5 @@
 import axiosRequest from "@/service/axiosRequest";
-import type {Article, Article_Add, Page, PageData, Select} from "@/types";
+import type {Article, Article_Add, Page, PageData, Select, Tag} from "@/types";
 
 //文章查询
 export async function ArticleQuery(params: Page, tag: string, category: string, isUser: boolean) {
@@ -15,7 +15,12 @@ export async function ArticleQuery(params: Page, tag: string, category: string, 
 
 //文章标签查询
 export async function TagArticle() {
-	return await axiosRequest.get<Select[]>("/tags/article", {})
+	return await axiosRequest.get<Select[]>("/articles/tag", {})
+}
+
+//标签文章数量查询
+export async function ArticleTags() {
+	return await axiosRequest.get<Tag[]>("/articles/tags", {})
 }
 
 //文章分类查询
@@ -59,3 +64,4 @@ export async function ArticleContent(id: string) {
 		}
 	})
 }
+

@@ -3,7 +3,7 @@
     <div class="loginAndRegister">
       <div class="login">
         <Transition
-            enter-avtive-class="animate__animated animate__slideInDown"
+            enter-active-class="animate__animated animate__slideInDown"
             leave-active-class="animate__animated animate__zoomOut"
             appear
         >
@@ -59,7 +59,7 @@
       </div>
       <div class="register">
         <Transition
-            enter-avtive-class="animate__animated animate__slideInDown"
+            enter-active-class="animate__animated animate__slideInDown"
             leave-active-class="animate__animated animate__zoomOut"
             appear
         >

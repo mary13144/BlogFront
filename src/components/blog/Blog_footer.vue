@@ -1,5 +1,10 @@
 <script setup lang="ts">
-
+const props = defineProps<{
+  bei_an: string
+  qq_image: string
+  wechat_image: string
+  github_url: string
+}>()
 </script>
 
 <template>
@@ -26,22 +31,22 @@
       </div>
       <div class="bei_an">
         <el-image src="/resources/footer/badges.png" style="height: 25px" loading="lazy" fit="fill"/>
-        <p>湘ICP备2021010654号-3</p>
+        <p>{{ props.bei_an }}</p>
       </div>
     </div>
     <div class="right">
       <div class="contact">
         <div class="QQ">
-          <el-image class="show_img" src="/resources/footer/qq_show.JPG" loading="lazy" fit="fill"/>
+          <el-image class="show_img" :src="props.qq_image" loading="lazy" fit="fill"/>
           <el-image src="/resources/footer/qq_icon.svg" style="width: 30px" loading="lazy" fit="fill"/>
         </div>
         <div class="wechat">
-          <el-image class="show_img" src="/resources/footer/wechat_show.JPG" loading="lazy"
+          <el-image class="show_img" :src="props.wechat_image" loading="lazy"
                     fit="fill"/>
           <el-image src="/resources/footer/wexin_icon.svg" style="width: 30px" loading="lazy" fit="fill"/>
         </div>
         <div class="github">
-          <a href="#">
+          <a :href="props.github_url">
             <el-image src="/resources/footer/github_icon.svg" style="width: 30px" loading="lazy" fit="fill"/>
           </a>
         </div>

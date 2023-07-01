@@ -3,7 +3,7 @@ import Admin_md from "@/components/admin/Admin_md.vue";
 import {useRoute, useRouter} from "vue-router";
 import {ArticleContent, ArticleUpdate} from "@/api/imagetext";
 import {onMounted, ref} from "vue";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 import {useAdminStore} from "@/stores";
 //响应式变量------------------------------------------------------------------
 const route = useRoute()

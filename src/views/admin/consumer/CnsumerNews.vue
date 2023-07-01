@@ -35,10 +35,6 @@ const columns: TableColumn[] = [
     avatar: true
   },
   {
-    title: "是否已读",
-    prop: "is_read",
-  },
-  {
     title: "发送时间",
     prop: "date",
   },
@@ -47,7 +43,7 @@ const columns: TableColumn[] = [
 //响应式变量-------------------------------------------------------------------
 const page = reactive<Page>({
   page_num: 1,
-  page_size: 2,
+  page_size: 6,
 })
 const newsData = ref<News[]>([])
 const total = ref<number>(0)

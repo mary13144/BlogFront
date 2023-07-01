@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import {ElMessage} from "element-plus";
 import {onMounted, ref} from "vue";
-import type {Article_Add, ImageBriefData} from "@/types";
-import {Select} from "@/types";
+import type {Article_Add, ImageBriefData, Select} from "@/types";
 import {ArticleCreate, ArticleQueryCategory, TagArticle} from "@/api/imagetext";
 import {useRouter} from "vue-router";
 import {useAdminStore} from "@/stores";

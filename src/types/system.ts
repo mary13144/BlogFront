@@ -81,13 +81,10 @@ export interface SetInfo {
 	bei_an: string
 	title: string
 	qq_image: string
-	email: string
 	wechat_image: string
-	name: string
 	slogan: string
 	slogan_en: string
 	github_url: string
-	web_addr: string
 }
 
 //email---------------------------------------------------------------------

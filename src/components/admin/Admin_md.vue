@@ -12,7 +12,7 @@ const props = defineProps<{
 const emits = defineEmits(['onSave', 'update:mdContent'])
 const content = ref<string>("")
 const editorRef = ref()
-const onUploadImg = async (files, callback) => {
+const onUploadImg = async (files: File[], callback: Function) => {
   const res = await Promise.all(
       files.map((file) => {
         return new Promise((rev, rej) => {
@@ -29,7 +29,7 @@ const onUploadImg = async (files, callback) => {
         });
       })
   );
-  callback(res.map((item) => item.data));
+  callback(res.map((item: any) => item.data));
 };
 const onChange = (value: string) => {
   emits('update:mdContent', value)
@@ -50,6 +50,9 @@ onMounted(() => {
         v-model="content"
         ref="editorRef"
         :theme="isDark ? 'dark' : 'light'"
+        show-code-row-number
+        preview-theme="vuepress"
+        code-theme="github"
         @onUploadImg="onUploadImg"
         @onSave="emits('onSave')"
         @onChange="onChange"
@@ -70,20 +73,5 @@ onMounted(() => {
 
   }
 
-  .md-editor-dark {
-    --md-color: #999;
-    --md-hover-color: #bbb;
-    --md-bk-color: #1D1E1F;
-    --md-bk-color-outstand: #111;
-    --md-bk-hover-color: #1b1a1a;
-    --md-border-color: #2d2d2d;
-    --md-border-hover-color: #636262;
-    --md-border-active-color: #777;
-    --md-modal-mask: #00000073;
-    --md-scrollbar-bg-color: #0f0f0f;
-    --md-scrollbar-thumb-color: #2d2d2d;
-    --md-scrollbar-thumb-hover-color: #3a3a3a;
-    --md-scrollbar-thumb-active-color: #3a3a3a;
-  }
 }
 </style>

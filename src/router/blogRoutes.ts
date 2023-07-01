@@ -14,9 +14,14 @@ const BlogRoutes: Array<RouteRecordRaw> = [
 				component: () => import("@/views/blog/Blog_home.vue"),
 			},
 			{
-				path: "/search",
+				path: "search",
 				name: "search",
 				component: () => import("@/views/blog/Blog_search.vue"),
+			},
+			{
+				path: "article/:id",
+				name: "article_detail",
+				component: () => import("@/views/blog/Blog_article.vue"),
 			},
 		],
 	}

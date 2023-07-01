@@ -2,6 +2,7 @@
 import {ArticleQuery} from "@/api/imagetext";
 import {onMounted, ref, watch} from "vue";
 import type {Article, Page} from "@/types";
+//@ts-ignore
 import {ElMessage} from "element-plus";
 import {getFormatDate} from "@/utils/date";
 import {debounce} from "@/utils/debounce";
@@ -29,12 +30,17 @@ const loadingData = async (reset: boolean) => {
     return
   }
   data.value = res.data.list
+  lock.value = false
 }
-const lay = (index) => {
+const lay = (index: number) => {
   return index % 2 == 0 ? 'even' : 'odd';
+}
+const skipAddress = (id: string) => {
+  window.open("/article/" + id, "_blank")
 }
 
 watch(() => blogStore.tag, () => {
+  page.value.page_num = 1
   loadingData(true)
 })
 
@@ -66,7 +72,12 @@ onMounted(() => {
     <TransitionGroup
         enter-active-class="animate__animated animate__fadeInUp"
     >
-      <div :class="'article '+lay(index)" v-for="(item,index) in data" :key="item.id+index">
+      <div
+          v-for="(item,index) in data"
+          :class="'article '+lay(index)"
+          :key="item.id+index"
+          @click="skipAddress(item.id)"
+      >
         <div class="img_container">
           <el-image
               style="width: 100%;height: 100%"
@@ -150,12 +161,12 @@ onMounted(() => {
     border-radius: 10px;
     overflow: hidden;
     margin-bottom: 20px;
+    cursor: pointer;
 
     .img_container {
       width: 40%;
       height: 100%;
       overflow: hidden;
-      cursor: pointer;
 
       .el-image {
         transition: all .3s;

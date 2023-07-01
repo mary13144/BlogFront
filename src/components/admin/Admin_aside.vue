@@ -11,7 +11,7 @@ const route = useRoute()
 const adminStore = useAdminStore()
 const loginStore = useLoginStore()
 const menu = ref()
-let open = reactive([])
+let open = reactive<string[]>([])
 //函数---------------------------------------------------------------------------
 //左侧导航栏数据
 const asideAdminData = ref<Admin_aside[]>([
@@ -180,7 +180,7 @@ onBeforeRouteUpdate((to, from, next) => {
   next()
 })
 onBeforeMount(() => {
-  open = route.meta.open
+  open = route.meta.open as string[]
   if (loginStore.token.user.role == 2) {
     asideAdminData.value = [
       {

@@ -4,7 +4,7 @@ import Blog_banner from "@/components/blog/Blog_banner.vue";
 import Blog_tags from "@/components/blog/Blog_tags.vue";
 import Blog_video from "@/components/blog/Blog_video.vue";
 import Blog_user from "@/components/blog/Blog_user.vue";
-import Blog_article from "@/components/blog/Blog_article.vue";
+import Blog_articlelist from "@/components/blog/Blog_articlelist.vue";
 </script>
 
 <template>
@@ -14,7 +14,7 @@ import Blog_article from "@/components/blog/Blog_article.vue";
     </div>
     <div class="home_main">
       <div class="left">
-        <Blog_article/>
+        <Blog_articlelist/>
       </div>
       <div class="right">
         <div class="right_item">
@@ -28,16 +28,17 @@ import Blog_article from "@/components/blog/Blog_article.vue";
         </div>
       </div>
     </div>
+
   </div>
 </template>
 
 <style scoped lang="scss">
 .blog_home {
   width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 
   .banner_wrapper {
     width: 100%;
@@ -47,18 +48,15 @@ import Blog_article from "@/components/blog/Blog_article.vue";
   .home_main {
     margin-top: 40px;
     width: 70%;
-    height: 100%;
     display: flex;
 
     .left {
       width: calc(100% - 370px);
-      height: 100%;
       margin-right: 20px;
     }
 
     .right {
       width: 300px;
-      height: 100%;
 
       .right_item {
         width: 100%;
@@ -71,18 +69,15 @@ import Blog_article from "@/components/blog/Blog_article.vue";
     .home_main {
       margin-top: 40px;
       width: 85%;
-      height: 100%;
       display: flex;
 
       .left {
         width: 70%;
-        height: 100%;
         margin-right: 20px;
       }
 
       .right {
         width: 30%;
-        height: 100%;
 
         .right_item {
           width: 100%;
@@ -95,7 +90,6 @@ import Blog_article from "@/components/blog/Blog_article.vue";
     .home_main {
       margin-top: 40px;
       width: 100%;
-      height: 100%;
       display: flex;
       justify-content: center;
 

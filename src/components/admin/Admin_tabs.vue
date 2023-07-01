@@ -20,6 +20,8 @@ const skipView = (item: Tab) => {
     }
     crumb.push(item.title)
     adminStore.setCrumbs(crumb)
+  } else {
+    adminStore.setCrumbs([])
   }
   //路由跳转
   router.push({

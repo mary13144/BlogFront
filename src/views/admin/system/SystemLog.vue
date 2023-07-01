@@ -5,7 +5,7 @@ import Admin_pages from "@/components/admin/Admin_pages.vue";
 import type {Log, Page, TableColumn, Video} from "@/types";
 import {LogTypes} from "@/types";
 import {onMounted, reactive, ref} from "vue";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 import {LogDelete, LogQuery} from "@/api/system";
 //固定参数---------------------------------------------------------------------
 const columns: TableColumn[] = [
@@ -60,7 +60,7 @@ const logTypes = [
 //响应式变量-------------------------------------------------------------------
 const page = reactive<Page>({
   page_num: 1,
-  page_size: 2,
+  page_size: 6,
 })
 const level = ref<number | undefined>(undefined)
 const LogData = ref<Log[]>([])

@@ -3,8 +3,10 @@ import {ArrowDown} from "@element-plus/icons-vue";
 import {useRouter} from "vue-router";
 import {useAdminStore, useLoginStore} from "@/stores";
 import {onBeforeMount, reactive} from "vue";
-import {Tab} from "@/types";
+import type {Tab} from "@/types";
 import {Logout} from "@/api/login";
+//@ts-ignore
+import {ElMessage} from "element-plus";
 
 const router = useRouter()
 const adminStore = useAdminStore()
@@ -19,11 +21,7 @@ const dropDown = reactive([
     name: "user_info",
     parent: "个人中心"
   },
-  {
-    title: "我的文章",
-    name: "user_article",
-    parent: "个人中心"
-  },
+
   {
     title: "我的收藏",
     name: "user_collection",
@@ -59,10 +57,15 @@ const logout = async () => {
 onBeforeMount(() => {
   if (loginStore.token.user.role == 1 || loginStore.token.user.role == 3) {
     dropDown.push({
-      name: "add_article",
-      parent: "个人中心",
-      title: "添加文章"
-    })
+          name: "add_article",
+          parent: "个人中心",
+          title: "添加文章"
+        },
+        {
+          title: "我的文章",
+          name: "user_article",
+          parent: "个人中心"
+        })
   }
 })
 </script>

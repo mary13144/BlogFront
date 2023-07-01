@@ -10,7 +10,7 @@
         </div>
         <div class="right">
           <div class="icons">
-            <i class="iconfont icon-shouye"></i>
+            <i class="iconfont icon-shouye" @click="()=>{router.push({name:'blog'})}"></i>
             <Theme/>
           </div>
           <User :is-avatar="true"/>
@@ -34,6 +34,9 @@ import Admin_aside from "@/components/admin/Admin_aside.vue";
 import Admin_tabs from "@/components/admin/Admin_tabs.vue";
 import Admin_crumbs from "@/components/admin/Admin_crumbs.vue";
 import User from "@/components/User.vue";
+import {useRouter} from "vue-router";
+
+const router = useRouter()
 </script>
 
 <style scoped lang="scss">

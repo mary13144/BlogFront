@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type {FormRules} from 'element-plus'
+import {ElMessage} from "element-plus";
 import {onMounted, reactive, ref} from "vue";
-import {Email} from "@/types";
+import type {Email} from "@/types";
 import {SetupQuery, SetupUpdate} from "@/api/system";
 //form表单验证规则
 const rules = reactive<FormRules>({

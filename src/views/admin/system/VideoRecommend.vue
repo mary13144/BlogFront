@@ -5,7 +5,7 @@ import Admin_pages from "@/components/admin/Admin_pages.vue";
 import type {Page, TableColumn, Video, VideoData} from "@/types";
 import {onMounted, reactive, ref} from "vue";
 import {VideoCreate, VideoDelete, VideoQuery, VideoUpdate} from "@/api/system";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 //固定参数---------------------------------------------------------------------
 const columns: TableColumn[] = [
   {
@@ -40,7 +40,7 @@ const columns: TableColumn[] = [
 //响应式变量-------------------------------------------------------------------
 const page = reactive<Page>({
   page_num: 1,
-  page_size: 2,
+  page_size: 6,
 })
 const videoData = ref<Video[]>([])
 const total = ref<number>(0)

@@ -3,17 +3,29 @@ import User from "@/components/User.vue";
 import Theme from "@/components/Theme.vue";
 import {useBlogStore, useLoginStore} from "@/stores";
 import {computed, onMounted, ref, watch} from "vue";
-import {debounce} from "@/utils/debounce";
-import type {MenuBrief} from "@/types";
-import {GetMenuBrief} from "@/api/blog";
+import type {fullText, MenuBrief} from "@/types";
+import {FullTextSearch, GetMenuBrief} from "@/api/blog";
+//@ts-ignore
 import {ElMessage} from "element-plus";
+import {Search} from '@element-plus/icons-vue'
+import {throttle} from "@/utils/throttle";
+import Blog_menu from "@/components/blog/Blog_menu.vue";
 
+
+const props = defineProps<{
+  slogan: string
+  en_slogan: string
+}>()
 const loginStore = useLoginStore()
 const blogStore = useBlogStore()
 const isLogin = computed(() => {
   return loginStore.token.user.role == 0
 })
 const isShow = ref<boolean>(true)
+const SearchShow = ref<boolean>(false)
+const key = ref<string>("")
+const fulltext = ref<fullText[]>([])
+const count = ref<number>(0)
 const nav_show = ref<boolean>(false)
 const oldScrollTop = ref<number>(0)
 const data = ref<MenuBrief[]>([])
@@ -26,13 +38,30 @@ const loadingData = async () => {
   }
   data.value = res.data
 }
-const scrollHandler = debounce(() => {
+const searchFulltext = async () => {
+  let res = await FullTextSearch(key.value)
+  if (res.code) {
+    ElMessage.error(res.msg)
+    return
+  }
+  fulltext.value = res.data.list
+  count.value = res.data.count
+  const parser = new DOMParser();
+  for (const text of fulltext.value) {
+    text.body = parser.parseFromString(text.body, 'text/html').body.textContent!;
+  }
+}
+
+const skip = (location: string) => {
+  window.open("/article/" + location, '_blank')
+}
+const scrollHandler = throttle(() => {
   const scrollTop = document.body.scrollTop ||
       document.documentElement.scrollTop;
   nav_show.value = scrollTop >= 600;
   isShow.value = !(nav_show.value && scrollTop > oldScrollTop.value);
   oldScrollTop.value = scrollTop
-}, 10)
+}, 100)
 watch(() => blogStore.is_show, () => {
   nav_show.value = blogStore.is_show
   if (blogStore.is_show) {
@@ -49,15 +78,22 @@ onMounted(() => {
 
 <template>
   <Transition
-      enter-active-class="animate__animated animate__slideInDown animate__faster"
-      leave-active-class="animate__animated animate__slideOutUp animate__faster"
-  >
+      enterActiveClass="animate__animated animate__slideInDown animate__faster"
+      leaveActiveClass="animate__animated animate__slideOutUp animate__faster">
     <div v-show="isShow" :class="{nav_container:true,nav_show:nav_show}">
       <div class="left">
         <div class="slogan_wrapper">
-          <div class="slogan">
-            Thomas的小站
-          </div>
+          <router-link to="/home" style="text-decoration: none">
+            <div class="slogan">
+              {{ props.slogan }}
+              <div class="en_slogan">
+                {{ props.en_slogan }}
+              </div>
+            </div>
+          </router-link>
+        </div>
+        <div class="menu_wrapper">
+          <Blog_menu/>
         </div>
       </div>
       <div class="right">
@@ -70,9 +106,49 @@ onMounted(() => {
               {{ item.title }}
             </router-link>
           </div>
-          <a href="#">
-            <i class="iconfont icon-sousuo" style="font-size: 30px"></i>
-          </a>
+          <div class="search">
+            <a href="#" @click="SearchShow = !SearchShow">
+              <i class="iconfont icon-sousuo" style="font-size: 30px"></i>
+            </a>
+            <el-dialog
+                v-model="SearchShow"
+                width="40%"
+                :show-close="false"
+                style="border-radius: 10px"
+                draggable
+            >
+              <template #header>
+              <span style="font-size: 20px;font-weight: bold">
+                全文搜索
+              </span>
+              </template>
+              <div class="search_input">
+                <el-input
+                    v-model="key"
+                    size="large"
+                    placeholder="Please Input"
+                    clearable
+                    autosize
+                    :suffix-icon="Search"
+                    @keydown.enter="searchFulltext"
+                />
+              </div>
+              <div class="search_result">
+                <div class="search_item" v-for="item in fulltext" :key="item.id" @click="skip(item.slug)">
+                  <div class="search_title">
+                    {{ item.title }}
+                  </div>
+                  <div class="search_text" v-html="item.body">
+                  </div>
+                </div>
+              </div>
+              <template #footer v-if="fulltext.length>0">
+                <div style="display:flex;align-items: center;justify-content: center">
+                  共搜索到{{ count }}条
+                </div>
+              </template>
+            </el-dialog>
+          </div>
 
         </nav>
         <div class="login_wrapper">
@@ -89,6 +165,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
+
     </div>
   </Transition>
 </template>
@@ -129,6 +206,13 @@ onMounted(() => {
         line-height: 18px;
         font-size: 18px;
         font-weight: bold;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .en_slogan {
+          font-size: 12px;
+        }
       }
 
       &:hover {
@@ -136,6 +220,9 @@ onMounted(() => {
       }
     }
 
+    .menu_wrapper {
+      display: none;
+    }
   }
 
   .right {
@@ -179,6 +266,46 @@ onMounted(() => {
           margin-right: 5px;
         }
       }
+
+      .search {
+        :deep(.el-icon) {
+          font-size: 18px;
+        }
+
+        .search_result {
+          margin-top: 10px;
+          max-height: 50vh;
+          overflow-y: auto;
+
+          .search_item {
+            cursor: pointer;
+            padding: 10px 20px;
+
+            &:hover {
+              background-color: var(--main_bg);
+            }
+
+            .search_title {
+              font-weight: bold;
+              font-size: 18px;
+            }
+
+            .search_text {
+              margin-top: 8px;
+              color: var(--text);
+              display: -webkit-box; /* 使用弹性盒子布局 */
+              -webkit-box-orient: vertical; /* 垂直方向排列 */
+              -webkit-line-clamp: 2; /* 限制内容显示的行数 */
+              overflow: hidden; /* 隐藏溢出部分 */
+              text-overflow: ellipsis; /* 使用省略号表示溢出内容 */
+            }
+          }
+        }
+      }
+    }
+
+    .min_right {
+      display: none;
     }
 
     .login_wrapper {
@@ -211,14 +338,48 @@ onMounted(() => {
 
   }
 
-  @include respond-to('pad') {
+}
+
+@include respond-to('pad') {
+  .nav_container {
+    padding: 0 20px;
+
+    .left {
+      .slogan_wrapper {
+        display: none;
+      }
+
+      .menu_wrapper {
+        display: block;
+      }
+    }
+
     .right {
-      display: none;
+      .right_nav {
+        display: none;
+      }
     }
   }
-  @include respond-to('phone') {
+}
+
+@include respond-to('phone') {
+  .nav_container {
+    padding: 0 20px;
+
+    .left {
+      .slogan_wrapper {
+        display: none;
+      }
+
+      .menu_wrapper {
+        display: block;
+      }
+    }
+
     .right {
-      display: none;
+      .right_nav {
+        display: none;
+      }
     }
   }
 }

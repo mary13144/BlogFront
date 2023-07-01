@@ -1,7 +1,59 @@
 <script setup lang="ts">
+import {onBeforeMount, ref} from "vue";
+import type {ArticleDatas, UserPersonalInfo} from "@/types";
+import {ArticleData, UserOwner} from "@/api/blog";
+import {ElMessage} from "element-plus";
+
 const props = defineProps<{
   is_article: boolean
+  user_id?: number
+  look_count?: number
+  digg_count?: number
+  comment_count?: number
+  collection_count?: number
 }>()
+
+const data = ref<UserPersonalInfo>({
+  addr: "",
+  avatar: "",
+  email: "",
+  link: "",
+  nick_name: "",
+  role: "",
+  sign: "",
+  sign_status: ""
+})
+
+const articleData = ref<ArticleDatas>({
+  category: 0,
+  count: 0
+})
+const loadingData = async () => {
+  let id: number
+  if (props.is_article) {
+    id = props.user_id as number
+  } else {
+    id = 1
+  }
+  let res = await UserOwner(id)
+  if (res.code) {
+    ElMessage.error(res.msg)
+    return
+  }
+  data.value = res.data
+}
+const loadingArticleData = async () => {
+  let res = await ArticleData()
+  if (res.code) {
+    ElMessage.error(res.msg)
+    return
+  }
+  articleData.value = res.data
+}
+onBeforeMount(() => {
+  loadingData()
+  loadingArticleData()
+})
 </script>
 
 <template>
@@ -9,25 +61,21 @@ const props = defineProps<{
     <div class="avatar">
       <el-avatar
           :size="120"
-          src="https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F179362e0-6104-4a5e-a423-e4bf670f04a9%2F01863-3890217792-analog_style_chromav5_nvinkpunkextremely_detaile.jpg?table=block&id=6f06c286-fb33-4fb7-8c53-25cfdc68503a"/>
+          fit="fill"
+          :src="data.avatar"/>
     </div>
     <div class="user">
       <div class="name">
-        Thomas
+        {{ data.nick_name }}
       </div>
       <div class="sign">
-        计算机硕士在读，乐于探索互联网新技术，前端技术爱好者
+        {{ data.sign }}
       </div>
     </div>
     <div class="link">
       <div class="github">
-        <a href="#">
+        <a :href="data.link" target="_blank">
           <i class="iconfont icon-github"/>
-        </a>
-      </div>
-      <div class="qq">
-        <a href="#">
-          <i class="iconfont icon-QQ"/>
         </a>
       </div>
     </div>
@@ -38,7 +86,7 @@ const props = defineProps<{
             文章
           </div>
           <div class="count">
-            14
+            {{ articleData.count }}
           </div>
         </div>
         <div class="count_data">
@@ -46,12 +94,27 @@ const props = defineProps<{
             分类
           </div>
           <div class="count">
-            8
+            {{ articleData.category }}
           </div>
         </div>
       </div>
       <div class="article_info" v-else>
-
+        <div class="look">
+          <span>浏览量</span>
+          <span>{{ props.look_count }}</span>
+        </div>
+        <div class="digg">
+          <span>点赞数</span>
+          <span>{{ props.digg_count }}</span>
+        </div>
+        <div class="comment">
+          <span>评论数</span>
+          <span>{{ props.comment_count }}</span>
+        </div>
+        <div class="collection">
+          <span>收藏数</span>
+          <span>{{ props.collection_count }}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -79,7 +142,6 @@ const props = defineProps<{
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 0 20px;
     height: 35%;
     justify-content: space-evenly;
 
@@ -110,10 +172,6 @@ const props = defineProps<{
       }
     }
 
-    .github {
-      margin-right: 20px;
-    }
-
   }
 
   .other_info {
@@ -138,7 +196,6 @@ const props = defineProps<{
 
         .title {
           font-size: 20px;
-
         }
 
         .count {
@@ -146,6 +203,30 @@ const props = defineProps<{
         }
       }
 
+    }
+
+    .article_info {
+      width: 100%;
+      height: 100%;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+
+      > div {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-evenly;
+        font-size: 0.875rem;
+
+        span:last-of-type {
+          font-size: 1.1rem;
+          font-weight: bold;
+          color: var(--theme);
+        }
+      }
     }
   }
 }

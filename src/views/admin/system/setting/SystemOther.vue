@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type {FormRules} from 'element-plus'
+import {ElMessage} from "element-plus";
 import {onMounted, reactive, ref} from "vue";
-import {JWT, QQ} from "@/types";
+import type {JWT, QQ} from "@/types";
 import {SetupQuery, SetupUpdate} from "@/api/system";
 import {useRouter} from "vue-router";
 //form表单验证规则

@@ -31,6 +31,7 @@ export interface Tag {
 export interface Article {
 	id: string
 	created_at: string
+	updated_at: string
 	title: string
 	keyword: string
 	abstract: string
@@ -46,6 +47,7 @@ export interface Article {
 	banner_id: number
 	banner_url: string
 	tags: string[]
+	is_collection?: boolean
 }
 
 export interface Select {

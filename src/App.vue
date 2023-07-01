@@ -1,24 +1,28 @@
 <script setup lang="ts">
+//@ts-ignore
 import {ElConfigProvider} from 'element-plus'
 import {useLoginStore} from "@/stores";
 
-const zIndex = 3000
-const size = 'small'
 let loginStore = useLoginStore()
 loginStore.loading()
 
 </script>
 
 <template>
-  <el-config-provider :size="size" :z-index="zIndex">
+  <ElConfigProvider :size="'small'" :z-index="3000">
     <router-view/>
-  </el-config-provider>
+  </ElConfigProvider>
 </template>
 
 <style lang="scss">
 * {
   box-sizing: border-box;
   font-family: Bitter, "Noto Serif SC", SimSun, Times New Roman, Times, serif, Segoe UI Emoji, Segoe UI Symbol, Apple Color Emoji, "Noto Serif CJK SC";
+
+  em {
+    color: red;
+    font-weight: bold;
+  }
 
   &::-webkit-scrollbar {
     width: 8px;
@@ -30,7 +34,7 @@ loginStore.loading()
   }
 
   &::-webkit-scrollbar-button {
-    display: none;
+    background-color: transparent;
   }
 }
 </style>

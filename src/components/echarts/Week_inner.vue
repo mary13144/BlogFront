@@ -29,7 +29,7 @@ function week() {
     themeColor = ['#fac858', '#ee6666']
   }
 
-  let chartDom = document.getElementById('week');
+  let chartDom = document.getElementById('week')!;
   let myChart = echarts.init(chartDom);
   let option;
   option = {

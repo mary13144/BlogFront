@@ -4,8 +4,10 @@ import {useBlogStore} from "@/stores";
 import Blog_user from "@/components/blog/Blog_user.vue";
 import type {Article, Page, Select} from "@/types";
 import {ArticleQuery, ArticleQueryCategory} from "@/api/imagetext";
+//@ts-ignore
 import {ElMessage} from "element-plus";
 import {getFormatDate} from "@/utils/date";
+import {useRouter} from "vue-router";
 //响应式变量----------------------------------------------------------------------------
 const page = ref<Page>({
   page_num: 1,
@@ -43,6 +45,7 @@ const actions = [
   },
 ]
 const actionIndex = ref<number>(0)
+const router = useRouter()
 const blogStore = useBlogStore()
 //函数----------------------------------------------------------------------------
 const loadingData = async () => {
@@ -62,7 +65,14 @@ const loadingCategory = async () => {
   }
   categorys.value = res.data
 }
-
+const articleHandler = (id: string) => {
+  router.push({
+    name: "article_detail",
+    params: {
+      id: id
+    }
+  })
+}
 const actionHandler = (sort: string, index: number) => {
   page.value.sort = sort
   actionIndex.value = index
@@ -116,7 +126,7 @@ onUnmounted(() => {
         <el-divider border-style="dashed"/>
         <template v-if="data.length!=0">
           <div class="result">
-            <div class="result_item" v-for="item in data" :key="item.id">
+            <div class="result_item" @click="articleHandler(item.id)" v-for="item in data" :key="item.id">
               <div class="img_container">
                 <img :src="item.banner_url" loading="lazy" alt="封面">
               </div>
@@ -174,7 +184,6 @@ onUnmounted(() => {
 <style scoped lang="scss">
 .blog_search {
   width: 100%;
-  height: 100%;
   padding-top: 60px;
   display: flex;
   flex-direction: column;
@@ -183,14 +192,12 @@ onUnmounted(() => {
   .search_main {
     margin-top: 40px;
     width: 70%;
-    height: 100%;
     display: flex;
     color: var(--text);
 
     .left {
-      width: calc(100% - 370px);
+      width: calc(100% - 320px);
       min-width: 700px;
-      height: 100%;
       margin-right: 20px;
       padding: 20px;
       color: var(--text);
@@ -364,7 +371,6 @@ onUnmounted(() => {
 
     .right {
       width: 300px;
-      height: 100%;
     }
   }
 
@@ -372,13 +378,11 @@ onUnmounted(() => {
     .search_main {
       margin-top: 40px;
       width: 85%;
-      height: 100%;
       display: flex;
 
       .left {
         width: 70%;
         min-width: 600px;
-        height: 100%;
         margin-right: 20px;
 
         .result {
@@ -392,7 +396,6 @@ onUnmounted(() => {
 
       .right {
         width: 300px;
-        height: 100%;
 
         .right_item {
           width: 100%;
@@ -405,7 +408,6 @@ onUnmounted(() => {
     .search_main {
       margin-top: 40px;
       width: 100%;
-      height: 100%;
       display: flex;
       justify-content: center;
 

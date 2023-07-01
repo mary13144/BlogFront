@@ -37,6 +37,7 @@ const articleCalendar = async () => {
       padding: [15, 5],
     }
   } else {
+    //@ts-ignore
     top.value = 40
   }
   let chartDom = document.getElementById('calendar');
@@ -60,7 +61,7 @@ const articleCalendar = async () => {
       backgroundColor: "#555",
       borderColor: "#777",
       borderWidth: 1,
-      formatter: function (e) {
+      formatter: function (e: any) {
         e = e.value;
         return '<div style="font-size: 14px; color: white">' + e[0] + "：" + e[1] + "</div>"
       }
@@ -84,6 +85,7 @@ const articleCalendar = async () => {
       }
     },
     calendar: {
+      //@ts-ignore
       top: top.value,
       right: "center",
       bottom: 30,

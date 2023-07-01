@@ -4,6 +4,7 @@ import Calendar from "@/components/echarts/Calender.vue";
 import Week from "@/components/echarts/Week.vue";
 import {onBeforeMount, reactive} from "vue";
 import {AllDataSum} from "@/api/home";
+import {ElMessage} from "element-plus";
 
 const home_data = reactive({
   article_count: {

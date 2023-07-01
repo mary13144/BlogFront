@@ -5,6 +5,8 @@ import {useDark} from "@vueuse/core";
 import {ArticleTags} from "@/api/imagetext";
 import type {Tag} from "@/types";
 import {useBlogStore} from "@/stores";
+//@ts-ignore
+import {ElMessage} from "element-plus";
 
 const isDark = useDark()
 const data = ref<Tag[]>([])
@@ -23,7 +25,6 @@ const tagHandler = (tag: string) => {
   } else {
     blogStore.tag = ""
   }
-  blogStore.page.page_num = 1
 }
 onMounted(() => {
   loadingData()

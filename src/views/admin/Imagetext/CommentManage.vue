@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import Admin_table from "@/components/admin/Admin_table.vue";
-import type {Comment, TableColumn} from "@/types";
-import {Page} from "@/types";
+import type {Comment, Page, TableColumn} from "@/types";
 import {onMounted, reactive, ref} from "vue";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 import {CommentQuery, CommentRemove} from "@/api/imagetext";
 import Admin_search from "@/components/admin/Admin_search.vue";
 import Admin_pages from "@/components/admin/Admin_pages.vue";
@@ -45,7 +44,7 @@ const columns: TableColumn[] = [
 //响应式变量-------------------------------------------------------------------
 const page = reactive<Page>({
   page_num: 1,
-  page_size: 2,
+  page_size: 6,
 })
 const commentData = ref<Comment[]>([])
 const total = ref<number>(0)

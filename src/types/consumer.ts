@@ -35,7 +35,6 @@ export interface News {
 	rev_user_id: number
 	rev_user_nick_name: string
 	rev_user_avatar: string
-	is_read?: boolean
 	is_me?: boolean
 	content: string
 }

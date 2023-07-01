@@ -2,7 +2,7 @@
 import type {FormRules} from 'element-plus'
 import {ElMessage} from "element-plus";
 import {onMounted, reactive, ref} from "vue";
-import {QiNiu} from "@/types";
+import type {QiNiu} from "@/types";
 import {SetupQuery, SetupUpdate} from "@/api/system";
 //form表单验证规则
 const rules_qiniu = reactive<FormRules>({

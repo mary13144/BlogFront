@@ -66,11 +66,3 @@ export async function NewsHistory(id: number) {
 		user_id: id
 	}, {})
 }
-
-//回复消息
-export async function SendNews(id: number, content: string) {
-	return await axiosRequest.post<string>("/messages", {
-		rec_id: id,
-		content: content,
-	}, {})
-}

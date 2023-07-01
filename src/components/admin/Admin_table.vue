@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {TableColumn} from "@/types";
+import type {TableColumn} from "@/types";
 import {getFormatDateTime} from "@/utils/date";
 import {ref} from "vue";
 import {useDark} from "@vueuse/core";
@@ -17,7 +17,7 @@ const props = defineProps<{
 const emits = defineEmits(["deleteData", "updateShow", "mutiDeleteShow", "mutiChangeData", "editorArticle"])
 //函数------------------------------------------------------------------------
 //编辑
-const changeData = (data) => {
+const changeData = (data: any) => {
   emits("updateShow", data)
 }
 //文章编辑
@@ -161,14 +161,6 @@ const width = (item: TableColumn) => {
           <div style="display: flex; align-items: center; justify-content: center">
             <el-tag :effect="isDark?'light':'dark'" :type="scope.row.is_show ?'success':'info'" size="large">{{
                 scope.row.is_show ? "显示" : "不显示"
-              }}
-            </el-tag>
-          </div>
-        </template>
-        <template #default="scope" v-if="item.prop == 'is_read'">
-          <div style="display: flex; align-items: center; justify-content: center">
-            <el-tag :effect="isDark?'light':'dark'" :type="scope.row.is_read ?'success':'warning'" size="large">{{
-                scope.row.is_show ? "已读" : "未读"
               }}
             </el-tag>
           </div>

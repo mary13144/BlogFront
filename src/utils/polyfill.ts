@@ -23,5 +23,4 @@
 			this.func(type, fn, capture);
 		};
 	}
-	;
 }());

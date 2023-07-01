@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import Admin_search from "@/components/admin/Admin_search.vue";
 import Admin_table from "@/components/admin/Admin_table.vue";
 import type {ImageBriefData, Menu, MenuData, TableColumn} from "@/types";
 import {onMounted, ref} from "vue";
 import {MenuBanner, MenuCreate, MenuDelete, MenuQuery, MenuUpdate} from "@/api/system";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 //固定参数---------------------------------------------------------------------
 const columns: TableColumn[] = [
   {
@@ -230,7 +229,7 @@ const loadingImageBrief = async () => {
   imageBrief.value = res.data
 }
 
-const selectChange = (val) => {
+const selectChange = (val: any) => {
   menuCreate.value.image_list = []
   menuUpdate.value.image_list = []
   for (let i = 0; i < selectList.value.length; i++) {
@@ -323,10 +322,6 @@ onMounted(() => {
         </template>
       </el-dialog>
     </div>
-    <div class="search_wrapper">
-      <Admin_search :page="page" @loading-data="loadingData" @change-is-loading="changeIsLoading">
-      </Admin_search>
-    </div>
     <div class="button_wrapper">
       <el-button type="primary" size="large" @click="addShow">添加</el-button>
       <el-button type="danger" v-show="mutiDelete" size="large" @click="deleteData(mutiSelection)">删除</el-button>
@@ -335,7 +330,6 @@ onMounted(() => {
       <Admin_table
           :columns="columns"
           :data="menuData"
-          :src-list="srcList"
           :is-loading="isLoading"
           :muti-delete="mutiDelete"
           @update-show="updateShow"

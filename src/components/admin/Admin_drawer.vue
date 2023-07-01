@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type {FormRules} from 'element-plus'
+import {ElMessageBox} from "element-plus";
 import {onMounted, reactive, ref} from "vue";
-import {Article_Add, ImageBriefData, Select} from "@/types";
+import type {Article_Add, ImageBriefData, Select} from "@/types";
 //响应式变量---------------------------------------------------------------------
 
 const imgPath = ref<string>("")

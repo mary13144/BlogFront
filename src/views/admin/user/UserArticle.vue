@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import {onMounted, reactive, ref} from "vue";
-import type {Article, Article_Add, Page, Select, TableColumn} from "@/types";
-import {ImageBriefData} from "@/types";
+import type {Article, Article_Add, ImageBriefData, Page, Select, TableColumn} from "@/types";
 import {ArticleQuery, ArticleQueryCategory, ArticleRemove, ArticleUpdate, TagArticle} from "@/api/imagetext";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 import Admin_table from "@/components/admin/Admin_table.vue";
 import Admin_pages from "@/components/admin/Admin_pages.vue";
 import Admin_search from "@/components/admin/Admin_search.vue";

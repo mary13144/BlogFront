@@ -47,14 +47,6 @@ export async function ArticleRemove(id_list: string[]) {
 	})
 }
 
-//查询文章详情
-export async function ArticleDetail(id: string) {
-	return await axiosRequest.get<Article>("/articles/detail", {
-		params: {
-			id: id
-		}
-	})
-}
 
 //查询文章内容
 export async function ArticleContent(id: string) {

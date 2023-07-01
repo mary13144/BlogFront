@@ -24,8 +24,10 @@ const props = defineProps<{
   background-color: var(--bg);
   border-radius: 10px;
   width: 100%;
+  height: 100%;
 
   .title {
+    height: 3.5rem;
     display: flex;
     align-items: center;
     padding: 10px 20px 0 20px;
@@ -41,6 +43,8 @@ const props = defineProps<{
 
   .body {
     width: 100%;
+    height: calc(100% - 3.5rem);
+    overflow: auto;
     padding: 20px;
   }
 }

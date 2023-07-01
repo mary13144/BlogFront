@@ -3,11 +3,12 @@ import {GetMenuDetail} from "@/api/blog";
 import {onMounted, reactive} from "vue";
 import type {Banner} from "@/types";
 import VueTyped from 'vue3typed/libs/typed/index.vue';
+import {ElMessage} from "element-plus";
 
 const props = defineProps<{
   height: string,
   is_article: boolean,
-  id: number,
+  id?: number,
   title?: string,
   slogan?: string,
   banner_url?: string
@@ -17,11 +18,10 @@ const data = reactive({
   title: "",
   slogan: [] as string[],
   banners_url: [] as Banner[],
-  abstract_time: 6,
   banner_time: 6,
 })
 const loadingData = async () => {
-  let res = await GetMenuDetail(props.id)
+  let res = await GetMenuDetail(props.id as number)
   if (res.code) {
     ElMessage.error(res.msg)
     return
@@ -29,7 +29,6 @@ const loadingData = async () => {
   data.title = res.data.slogan
   data.slogan = res.data.abstract
   data.banners_url = res.data.banners
-  data.abstract_time = res.data.abstract_time
   data.banner_time = res.data.banner_time
 }
 
@@ -62,20 +61,20 @@ onMounted(() => {
         </template>
       </div>
     </div>
-    <el-carousel indicator-position="none" :interval="data.banner_time*1000" :height="props.height">
+    <el-carousel indicator-position="none" :interval="data.banner_time*1000" :height="props.height" arrow="never">
       <template v-if="!props.is_article">
         <el-carousel-item v-for="item in data.banners_url">
           <el-image style="width: 100%;height: 100%"
                     :src="item.path"
                     :key="item.banner_id"
-                    :fit="fit"/>
+                    fit="fill"/>
         </el-carousel-item>
       </template>
       <template v-else>
         <el-carousel-item>
           <el-image style="width: 100%;height: 100%"
                     :src="props.banner_url"
-                    :fit="fit"/>
+                    fit="fill"/>
         </el-carousel-item>
       </template>
     </el-carousel>
@@ -86,7 +85,6 @@ onMounted(() => {
 .banner_container {
   width: 100%;
   height: 100%;
-  background-color: #66b1ff;
   position: relative;
 
   .title {

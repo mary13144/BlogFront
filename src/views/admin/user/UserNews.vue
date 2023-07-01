@@ -2,8 +2,10 @@
 import Admin_table from "@/components/admin/Admin_table.vue";
 import type {News, TableColumn, UserMessage} from "@/types";
 import {onMounted, ref} from "vue";
-import {ElMessage} from "element-plus";
-import {NewsHistory, NewsQuery, SendNews} from "@/api/user";
+//@ts-ignore
+import {ElMessage, ElMessageBox} from "element-plus";
+import {NewsHistory, NewsQuery} from "@/api/user";
+import {useLoginStore} from "@/stores";
 //固定参数---------------------------------------------------------------------
 const columns: TableColumn[] = [
   {
@@ -16,7 +18,7 @@ const columns: TableColumn[] = [
     avatar: true
   },
   {
-    title: "消息内容",
+    title: "最新消息内容",
     prop: "content",
   },
   {
@@ -39,14 +41,23 @@ const isLoading = ref<boolean>(false)
 const isShow = ref<boolean>(false)
 const title = ref<string>("")
 const newsHistory = ref<News[]>([])
-const revID = ref<number>(0)
 const content = ref<string>("")
+const loginStore = useLoginStore()
+const recUser = ref<{
+  id: number
+  avatar: string
+  nickname: string
+}>({
+  avatar: "",
+  id: 0,
+  nickname: ""
+})
+
+let socket: WebSocket
 //函数------------------------------------------------------------------------
 //加载信息
 const loadingData = async () => {
   let res = await NewsQuery()
-  console.log(res)
-  console.log(res.data)
   if (res.code) {
     ElMessage.error(res.msg)
     return
@@ -72,23 +83,82 @@ const getHistory = async (id: number) => {
 const replyDisplay = async (data: UserMessage) => {
   title.value = `与${data.nick_name}的对话`
   isShow.value = true
-  revID.value = data.user_id
+  //获取聊天历史
   await getHistory(data.user_id)
+  //获取对方信息
+  recUser.value.id = data.user_id
+  recUser.value.avatar = data.avatar
+  recUser.value.nickname = data.nick_name
+  //建立链接
+  websocketConn()
 }
 
-const sendMessage = async () => {
-  if (content.value == "") {
-    ElMessage.warning("消息不可为空")
-    return
+const beforeClose = (done: Function) => {
+  ElMessageBox.confirm(
+      '你确定要关闭吗?',
+      'Warning',
+      {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning',
+        draggable: true,
+        buttonSize: "default"
+      })
+      .then(() => {
+        done()
+        socket.close()
+      })
+      .catch(() => {
+      })
+}
+const websocketConn = () => {
+  socket = new WebSocket(`ws://127.0.0.1:8080/api/messages/link?rec_id=${recUser.value.id}&send_id=${loginStore.token.user.user_id}`)
+  let ele = document.getElementById("chat")!
+  socket.onopen = function () {
+    console.log("连接成功")
+    ele.scrollTop = ele.scrollHeight
   }
-  let res = await SendNews(revID.value, content.value)
-  if (res.code) {
-    ElMessage.error(res.msg)
-    return
+  socket.onmessage = function (ev) {
+    let content = ev.data
+    newsHistory.value.push({
+      content: content,
+      rev_user_avatar: loginStore.token.user.avatar,
+      rev_user_id: loginStore.token.user.user_id,
+      rev_user_nick_name: loginStore.token.user.nick_name,
+      send_user_avatar: recUser.value.avatar,
+      send_user_id: recUser.value.id,
+      send_user_nick_name: recUser.value.nickname,
+      is_me: false,
+    })
+    setTimeout(() => {
+      ele.scrollTop = ele.scrollHeight
+    }, 100)
   }
+  socket.onerror = function () {
+
+  }
+  socket.onclose = function () {
+    console.log("关闭连接")
+  }
+}
+
+const sendMessage = () => {
+  socket.send(content.value)
+  newsHistory.value.push({
+    content: content.value,
+    rev_user_avatar: recUser.value.avatar,
+    rev_user_id: recUser.value.id,
+    rev_user_nick_name: recUser.value.nickname,
+    send_user_avatar: loginStore.token.user.avatar,
+    send_user_id: loginStore.token.user.user_id,
+    send_user_nick_name: loginStore.token.user.nick_name,
+    is_me: true
+  })
   content.value = ""
-  await getHistory(revID.value)
-  await loadingData()
+  let ele = document.getElementById("chat")!
+  setTimeout(() => {
+    ele.scrollTop = ele.scrollHeight
+  }, 100)
 }
 
 //生命周期钩子函数---------------------------------------------------------------
@@ -104,12 +174,13 @@ onMounted(() => {
           v-model="isShow"
           :title="title"
           width="35%"
+          :before-close="beforeClose"
           draggable
           style="border-radius: 5px"
           class="reply"
       >
         <el-divider border-style="dashed" style="margin: 0 0 10px 0;"/>
-        <div class="chat_body">
+        <div class="chat_body" id="chat">
           <div class="message">
             <div :class="item.is_me?'me':'you'" v-for="(item,index) in newsHistory" :key="index">
               <div class="avatar">
@@ -168,12 +239,15 @@ onMounted(() => {
 
   .reply_wrapper {
     .reply {
+
       .chat_body {
         padding: 20px;
         height: 500px;
         overflow-y: auto;
+        scroll-behavior: smooth;
 
         .message {
+
           & > div {
             display: flex;
             margin-bottom: 20px;

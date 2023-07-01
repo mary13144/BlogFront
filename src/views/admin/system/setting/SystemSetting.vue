@@ -7,17 +7,8 @@ import {ElMessage} from "element-plus";
 import {SetupQuery, SetupUpdate} from "@/api/system";
 //form表单验证规则
 const rules = reactive<FormRules>({
-  name: [
-    {required: true, message: 'Please input name', trigger: 'change'},
-  ],
-  web_addr: [
-    {required: true, message: 'Please input web_addr', trigger: 'change'},
-  ],
   bei_an: [
     {required: true, message: 'Please input bei_an', trigger: 'change'},
-  ],
-  email: [
-    {required: true, message: 'Please input email', trigger: 'change'},
   ],
   github_url: [
     {required: true, message: 'Please input github_url', trigger: 'change'},
@@ -41,11 +32,8 @@ const rules = reactive<FormRules>({
 //响应式变量-------------------------------------------------------------
 const token = localStorage.getItem("token")
 const setData = ref<SetInfo>({
-  web_addr: "",
   bei_an: "",
-  email: "",
   github_url: "",
-  name: "",
   qq_image: "",
   slogan: "",
   slogan_en: "",
@@ -128,12 +116,6 @@ onMounted(() => {
             个人信息
           </div>
           <el-divider border-style="dashed" style="margin: 10px 0 10px 0"/>
-          <el-form-item label="昵称：" prop="name">
-            <el-input v-model="setData.name" placeholder="请输入昵称"/>
-          </el-form-item>
-          <el-form-item label="邮箱：" prop="email">
-            <el-input v-model="setData.email" placeholder="请输入邮箱"/>
-          </el-form-item>
           <el-form-item label="QQ：" prop="qq_image">
             <el-input v-model="setData.qq_image" placeholder="请上传QQ二维码"/>
             <el-upload
@@ -167,15 +149,6 @@ onMounted(() => {
                 <Plus/>
               </el-icon>
             </el-upload>
-          </el-form-item>
-        </div>
-        <div class="link_info">
-          <div class="subTitle">
-            链接信息
-          </div>
-          <el-divider border-style="dashed" style="margin: 10px 0 10px 0"/>
-          <el-form-item label="网站地址：" prop="web_addr">
-            <el-input v-model="setData.web_addr" placeholder="请输入网站地址"/>
           </el-form-item>
           <el-form-item label="Github：" prop="github_url">
             <el-input v-model="setData.github_url" placeholder="请输入Github地址"/>

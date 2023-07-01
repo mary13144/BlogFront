@@ -3,7 +3,8 @@ import {onMounted, reactive, ref} from "vue";
 import type {Image, ImageUpdateData, Page, Result, TableColumn} from "@/types";
 import {ImageType} from "@/types";
 import {ImageDelete, ImageQuery, ImageUpdate} from "@/api/imagetext";
-import {ElMessage, UploadFile, UploadFiles, UploadUserFile} from "element-plus";
+import type {UploadFile, UploadFiles, UploadUserFile} from 'element-plus'
+import {ElMessage, ElMessageBox} from "element-plus";
 import Admin_table from "@/components/admin/Admin_table.vue";
 import Admin_pages from "@/components/admin/Admin_pages.vue";
 import Admin_search from "@/components/admin/Admin_search.vue";
@@ -63,7 +64,7 @@ const srcList = ref<string[]>([])
 const total = ref<number>(0)
 const page = reactive<Page>({
   page_num: 1,
-  page_size: 2,
+  page_size: 6,
 })
 const imageUpdate = ref<ImageUpdateData>({
   id: 0,
@@ -85,7 +86,7 @@ const isUpload = ref<boolean>(false)
 const dialogImageUrl = ref<string>('')
 const dialogVisible = ref<boolean>(false)
 //图片上传dom
-const uploadRef = ref<UploadInstance>()
+const uploadRef = ref()
 //上传是否完毕
 const allUpload = ref<number>(0)
 //函数-----------------------------------------------------------------------------
@@ -182,7 +183,7 @@ const handlerUpload = async () => {
   uploadRef.value!.submit()
 }
 //文件上传成功
-const handlerSuccess = async (response: Result<string>, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
+const handlerSuccess = async (response: Result<any>, uploadFile: UploadFile, uploadFiles: UploadFiles) => {
   ElMessage.success(response.data[0].msg)
   allUpload.value += 1
   if (uploadFiles.length == allUpload.value) {

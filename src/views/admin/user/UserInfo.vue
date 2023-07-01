@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type {FormRules} from 'element-plus'
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 import {onMounted, reactive, ref} from "vue";
-import {EmailUpdate, PwdUpdate, UserPersonalInfo} from "@/types";
+import type {EmailUpdate, PwdUpdate, Result, UserPersonalInfo} from "@/types";
 import {UserEmail, UserPwd, UserQuery, UserUpdate} from "@/api/user";
 import {Plus} from "@element-plus/icons-vue";
 import {ParesToken} from "@/utils/token";
@@ -10,7 +10,7 @@ import {useAdminStore, useLoginStore} from "@/stores";
 import {useRouter} from "vue-router";
 import {Logout} from "@/api/login";
 //form表单验证规则
-const checkEmail = (rule, value, callback) => {//邮箱校验
+const checkEmail = (rule: any, value: any, callback: any) => {//邮箱校验
   const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
   if (!value) {
     return callback(new Error('邮箱不能为空'))
@@ -23,7 +23,7 @@ const checkEmail = (rule, value, callback) => {//邮箱校验
     }
   }, 100)
 }
-const checkPwd = (rule, value, callback) => {
+const checkPwd = (rule: any, value: any, callback: any) => {
   if (!value) {
     return callback(new Error('确认密码不能为空'))
   }
@@ -493,12 +493,12 @@ onMounted(() => {
 
   }
 
-  .email, {
+  .email {
     :deep(.el-dialog__body) {
       padding: 0;
     }
 
-    .email_main, {
+    .email_main {
       padding: 10px 40px;
 
       .email_button {

@@ -5,7 +5,7 @@ import Admin_pages from "@/components/admin/Admin_pages.vue";
 import type {Page, TableColumn, UserInfo, UserUpdateDate} from "@/types";
 import {UserPower} from "@/types";
 import {ConsumerDelete, ConsumerQuery, ConsumerUpdate} from "@/api/consumer";
-import {ElMessage} from "element-plus";
+import {ElMessage, ElMessageBox} from "element-plus";
 import Admin_search from "@/components/admin/Admin_search.vue";
 //固定参数--------------------------------------------------------------------------
 //用户列表表头
@@ -90,7 +90,7 @@ const userUpdate = ref<UserUpdateDate>({
 //分页参数
 const page = reactive<Page>({
   page_num: 1,
-  page_size: 2,
+  page_size: 6,
 })
 const role = ref(undefined)
 //加载用户列表数据

@@ -22,6 +22,7 @@ loginStore.loading()
   em {
     color: red;
     font-weight: bold;
+    font-style: normal;
   }
 
   &::-webkit-scrollbar {

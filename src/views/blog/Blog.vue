@@ -4,7 +4,6 @@ import Blog_footer from "@/components/blog/Blog_footer.vue";
 import {onMounted, ref} from "vue";
 import type {SetInfo} from "@/types";
 import {SetInfoQuery} from "@/api/blog";
-//@ts-ignore
 import {ElMessage} from "element-plus";
 import BacktoTop from "@/components/BacktoTop.vue";
 
@@ -14,7 +13,6 @@ const data = ref<SetInfo>({
   qq_image: "",
   slogan: "",
   slogan_en: "",
-  title: "",
   wechat_image: ""
 })
 

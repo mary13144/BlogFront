@@ -22,9 +22,6 @@ const rules = reactive<FormRules>({
   slogan_en: [
     {required: true, message: 'Please input slogan_en', trigger: 'change'},
   ],
-  title: [
-    {required: true, message: 'Please input title', trigger: 'change'},
-  ],
   wechat_image: [
     {required: true, message: 'Please input wechat_image', trigger: 'change'},
   ],
@@ -37,7 +34,6 @@ const setData = ref<SetInfo>({
   qq_image: "",
   slogan: "",
   slogan_en: "",
-  title: "",
   wechat_image: ""
 })
 //函数-------------------------------------------------------------------
@@ -98,9 +94,6 @@ onMounted(() => {
             网站设置
           </div>
           <el-divider border-style="dashed" style="margin: 10px 0 10px 0"/>
-          <el-form-item label="网站标题：" prop="title">
-            <el-input v-model="setData.title" placeholder="请输入网站标题"/>
-          </el-form-item>
           <el-form-item label="Slogan：" prop="slogan">
             <el-input v-model="setData.slogan" placeholder="请输入Slogan"/>
           </el-form-item>

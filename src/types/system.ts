@@ -79,7 +79,6 @@ export enum LogTypes {
 //SetInfo---------------------------------------------------------------------
 export interface SetInfo {
 	bei_an: string
-	title: string
 	qq_image: string
 	wechat_image: string
 	slogan: string

@@ -127,7 +127,8 @@ const beforeClose = (done: Function) => {
       })
 }
 const websocketConn = () => {
-  socket = new WebSocket(`ws://127.0.0.1:8080/api/messages/link?rec_id=${recUser.value.id}&send_id=${loginStore.token.user.user_id}`)
+
+  socket = new WebSocket(`ws://${location.host}/api/messages/link?rec_id=${recUser.value.id}&send_id=${loginStore.token.user.user_id}`)
   let ele = document.getElementById("chat")!
   socket.onopen = function () {
     console.log("连接成功")

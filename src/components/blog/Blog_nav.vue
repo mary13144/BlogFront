@@ -5,11 +5,10 @@ import {useBlogStore, useLoginStore} from "@/stores";
 import {computed, onMounted, ref, watch} from "vue";
 import type {fullText, MenuBrief} from "@/types";
 import {FullTextSearch, GetMenuBrief} from "@/api/blog";
-//@ts-ignore
-import {ElMessage} from "element-plus";
 import {Search} from '@element-plus/icons-vue'
 import {throttle} from "@/utils/throttle";
 import Blog_menu from "@/components/blog/Blog_menu.vue";
+import {ElMessage} from "element-plus";
 
 
 const props = defineProps<{
@@ -48,7 +47,7 @@ const searchFulltext = async () => {
   count.value = res.data.count
   const parser = new DOMParser();
   for (const text of fulltext.value) {
-    text.body = parser.parseFromString(text.body, 'text/html').body.textContent!;
+    text.body = parser.parseFromString(text.body, 'text/html').body.innerHTML
   }
 }
 

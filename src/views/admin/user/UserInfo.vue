@@ -196,6 +196,12 @@ const handlerPwd = async () => {
     ElMessage.error("两次密码输入不一致，请重新输入")
     return
   }
+  //密码为八位及以上并且大小写字母数字特殊字符三项都包括
+  let strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
+  if (!strongRegex.test(pwd.value.new_pwd)) {
+    ElMessage.warning("请至少使用大小写字母、数字、符号两种类型组合的密码，长度至少为8位")
+    return
+  }
   let res = await UserPwd(pwd.value)
   if (res.code) {
     ElMessage.error(res.msg)

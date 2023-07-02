@@ -248,6 +248,16 @@ const loginHandler = async () => {
 //注册-------------------------------------------------------------------------------------
 const registerInfo = reactive<RegisterInfo>({code: "", confirm_password: "", email: "", password: "", username: ""})
 const registerHandler = async () => {
+  //密码为八位及以上并且大小写字母数字特殊字符三项都包括
+  let strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
+  if (!strongRegex.test(registerInfo.password)) {
+    ElMessage.warning("请至少使用大小写字母、数字、符号两种类型组合的密码，长度至少为8位")
+    return
+  }
+  if (registerInfo.password != registerInfo.confirm_password) {
+    ElMessage.warning("两次密码输入不一致，请重新输入")
+    return
+  }
   let res = await Register(registerInfo)
   if (res.code) {
     ElMessage.error(res.msg)
@@ -255,7 +265,6 @@ const registerHandler = async () => {
   }
   ElMessage.success(res.msg)
   showLogin()
-
 }
 //发送验证码
 const isDisable = ref<boolean>(false)
@@ -277,9 +286,15 @@ const timeDisplay = () => {
 }
 const sendCode = async () => {
   if (registerInfo.email == "") {
-    ElMessage.info("请输入邮箱")
+    ElMessage.warning("请输入邮箱")
     return
   }
+  const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
+  if (!mailReg.test(registerInfo.email)) {
+    ElMessage.warning("请输入正确的邮箱格式")
+    return
+  }
+
   let res = await RegisterCode(registerInfo.email)
   if (res.code) {
     ElMessage.error(res.msg)

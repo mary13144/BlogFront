@@ -1,5 +1,5 @@
 import type {Code, LoginUser, RegisterInfo, Result} from "@/types";
-import axiosRequest from "@/service/axiosRequest";
+import {axiosRequest} from "@/service/axiosRequest";
 
 //请求验证码api
 export async function LoadingCode(): Promise<Result<Code>> {

@@ -2,6 +2,7 @@ import type {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Inter
 import axios from "axios";
 import globalConfig from "@/global.config";
 import type {Result} from "@/types";
+import {ElMessage} from "element-plus";
 
 export class Request {
 	instance: AxiosInstance
@@ -9,14 +10,26 @@ export class Request {
 		baseURL: '/api',
 		timeout: 3 * 1000,
 	}
+	is_cache: boolean
+	cacheList: Set<string> = new Set()
 
-	constructor(config: AxiosRequestConfig) {
+	constructor(config: AxiosRequestConfig, is_cache: boolean) {
+		this.is_cache = is_cache
 		this.instance = axios.create(Object.assign(this.baseConfig, config))
 		//请求拦截器
 		this.instance.interceptors.request.use(
 			//成功
 			(config: InternalAxiosRequestConfig) => {
 				let url = config.url as string
+				if (this.is_cache) {
+					let method = config.method as string
+					let key = url + method
+					if (this.cacheList.has(key)) {
+						ElMessage.warning("请求已发送，请稍后再试")
+						return Promise.reject("重复提交请求")
+					}
+					this.cacheList.add(key)
+				}
 				let whiteListApi: string[] = globalConfig.whiteListApi
 				const token = localStorage.getItem("token")
 				if (whiteListApi.indexOf(url) === -1 && token) {
@@ -32,6 +45,12 @@ export class Request {
 
 		//响应拦截器
 		this.instance.interceptors.response.use((res: AxiosResponse) => {
+			if (this.is_cache) {
+				let url = res.config.url as string
+				let method = res.config.method as string
+				let key = url + method
+				this.cacheList.delete(key)
+			}
 			//直接返回数据
 			return res.data
 		}, (err: AxiosError) => {
@@ -109,7 +128,10 @@ export class Request {
 	public delete<T = any>(url: string, config: AxiosRequestConfig): Promise<Result<T>> {
 		return this.instance.delete(url, config);
 	}
-
 }
 
-export default new Request({})
+const cacheRequest = new Request({}, true)
+const axiosRequest = new Request({}, false)
+
+export {cacheRequest, axiosRequest}
+

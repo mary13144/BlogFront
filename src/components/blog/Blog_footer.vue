@@ -165,4 +165,62 @@ const props = defineProps<{
   }
 
 }
+
+@include respond-to('phone') {
+  .blog_footer {
+    width: 100%;
+    height: 200px;
+    background-color: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .left {
+      width: 90%;
+      height: 80%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--text);
+
+      .el-image {
+        margin-right: 5px;
+      }
+
+      .thank {
+        height: 70%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        .title {
+          font-size: 25px;
+          font-weight: bold;
+          text-align: center;
+        }
+
+        .icons {
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      .bei_an {
+        height: 30%;
+        display: flex;
+        align-items: center;
+
+        p {
+          margin: 0;
+        }
+      }
+    }
+
+    .right {
+      display: none;
+    }
+
+  }
+}
 </style>

@@ -20,7 +20,12 @@
       <main>
         <router-view v-slot="{Component}">
           <transition name="fade" mode="out-in">
-            <component :is="Component"/>
+            <KeepAlive>
+              <component :is="Component" :key="$route.name" v-if="$route.meta.keep_alive"></component>
+            </KeepAlive>
+          </transition>
+          <transition name="fade" mode="out-in">
+            <component :is="Component" :key="$route.name" v-if="!$route.meta.keep_alive"></component>
           </transition>
         </router-view>
       </main>

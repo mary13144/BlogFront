@@ -1,5 +1,5 @@
 import type {Image, Page, PageData} from "@/types";
-import axiosRequest from "@/service/axiosRequest";
+import {axiosRequest} from "@/service/axiosRequest";
 // @ts-ignore
 import {UploadUserFile} from "element-plus";
 

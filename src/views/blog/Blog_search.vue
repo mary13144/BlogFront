@@ -197,7 +197,6 @@ onUnmounted(() => {
 
     .left {
       width: calc(100% - 320px);
-      min-width: 700px;
       margin-right: 20px;
       padding: 20px;
       color: var(--text);
@@ -253,9 +252,11 @@ onUnmounted(() => {
         color: var(--text_light);
 
         & > span {
+          display: inline-block;
           height: 25px;
           padding: 3px 6px;
           margin-right: 20px;
+          margin-bottom: 10px;
           border-radius: 5px;
           cursor: pointer;
 
@@ -278,9 +279,11 @@ onUnmounted(() => {
         color: var(--text_light);
 
         & > span {
+          display: inline-block;
           height: 25px;
           padding: 3px 6px;
           margin-right: 20px;
+          margin-bottom: 10px;
           border-radius: 5px;
           cursor: pointer;
 
@@ -382,7 +385,6 @@ onUnmounted(() => {
 
       .left {
         width: 70%;
-        min-width: 600px;
         margin-right: 20px;
 
         .result {
@@ -413,7 +415,6 @@ onUnmounted(() => {
 
       .left {
         width: 100%;
-        min-width: 600px;
 
         .result {
           width: 100%;
@@ -430,8 +431,31 @@ onUnmounted(() => {
     }
   }
   @include respond-to('phone') {
-    .right {
-      display: none;
+    .search_main {
+      margin: 40px 0 0 0;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+
+      .left {
+        width: 100%;
+
+        .result {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+
+          .result_item {
+            width: 80%;
+          }
+        }
+      }
+
+      .right {
+        display: none;
+      }
     }
   }
 }

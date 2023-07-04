@@ -1,4 +1,4 @@
-import axiosRequest from "@/service/axiosRequest";
+import {axiosRequest} from "@/service/axiosRequest";
 import type {Page, PageData, Video, VideoData} from "@/types";
 
 //查询影视推荐信息

@@ -1,4 +1,4 @@
-import axiosRequest from "@/service/axiosRequest";
+import {axiosRequest} from "@/service/axiosRequest";
 import type {News, Page, PageData} from "@/types";
 
 export async function MessageQuery(params: Page) {

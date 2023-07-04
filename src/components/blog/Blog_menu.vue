@@ -163,6 +163,10 @@ onMounted(() => {
         font-size: 25px;
       }
     }
+
+    @include respond-to('phone') {
+      width: 100% !important;
+    }
   }
 }
 

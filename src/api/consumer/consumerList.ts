@@ -1,5 +1,5 @@
 import type {Page, PageData, UserInfo, UserUpdateDate} from "@/types";
-import axiosRequest from "@/service/axiosRequest";
+import {axiosRequest} from "@/service/axiosRequest";
 
 //查询用户列表api
 export async function ConsumerQuery(params: Page, role: undefined | number) {

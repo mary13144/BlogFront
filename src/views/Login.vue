@@ -306,8 +306,6 @@ const sendCode = async () => {
 </script>
 
 <style scoped lang="scss">
-
-
 .login_wrapper {
   height: 100vh;
   display: flex;
@@ -484,7 +482,6 @@ const sendCode = async () => {
       }
     }
 
-
     .switchDisplay {
       border-radius: v-bind(borderTopLeftRadius) v-bind(borderTopRightRadius) v-bind(borderBottomRightRadius) v-bind(borderBottomLeftRadius);
       position: absolute;
@@ -520,6 +517,18 @@ const sendCode = async () => {
         }
       }
 
+    }
+
+    @include respond-to('phone') {
+      .login {
+        border-radius: 15px;
+      }
+      .register {
+        display: none;
+      }
+      .switchDisplay {
+        display: none;
+      }
     }
   }
 }

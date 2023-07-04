@@ -2,7 +2,7 @@
 import {MdEditor} from "md-editor-v3";
 import 'md-editor-v3/lib/style.css';
 import {useDark} from "@vueuse/core";
-import axiosRequest from "@/service/axiosRequest";
+import {axiosRequest} from "@/service/axiosRequest";
 import {onMounted, ref, watch} from "vue";
 
 const isDark = useDark()

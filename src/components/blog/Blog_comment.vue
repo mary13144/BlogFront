@@ -77,6 +77,7 @@ const deleteHandler = async () => {
   if (!props.is_sub) {
     comment_number(false)
   }
+  emits("commentChange", undefined, props.comment.article_id)
 }
 
 let socket: WebSocket
@@ -127,8 +128,7 @@ const beforeClose = (done: Function) => {
       })
 }
 const websocketConn = () => {
-
-  socket = new WebSocket(`ws://${location.host}/api/messages/link?rec_id=${recUser.value.id}&send_id=${loginStore.token.user.user_id}`)
+  socket = new WebSocket(`wss://${location.host}/api/messages/link?rec_id=${recUser.value.id}&send_id=${loginStore.token.user.user_id}`)
   let ele = document.getElementById("chat")!
   socket.onopen = function () {
     console.log("连接成功")

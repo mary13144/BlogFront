@@ -1,4 +1,4 @@
-import axiosRequest from "@/service/axiosRequest";
+import {axiosRequest} from "@/service/axiosRequest";
 import type {Article, Article_Add, Page, PageData, Select, Tag} from "@/types";
 
 //文章查询

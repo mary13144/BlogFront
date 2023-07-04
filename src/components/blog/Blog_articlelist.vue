@@ -257,5 +257,17 @@ onMounted(() => {
     overflow: hidden;
     margin-bottom: 20px;
   }
+
+  @include respond-to('phone') {
+    .article {
+      .img_container {
+        display: none;
+      }
+
+      .info {
+        width: 100%;
+      }
+    }
+  }
 }
 </style>

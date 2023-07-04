@@ -6,7 +6,6 @@ import VueTyped from 'vue3typed/libs/typed/index.vue';
 import {ElMessage} from "element-plus";
 
 const props = defineProps<{
-  height: string,
   is_article: boolean,
   id?: number,
   title?: string,
@@ -61,7 +60,7 @@ onMounted(() => {
         </template>
       </div>
     </div>
-    <el-carousel indicator-position="none" :interval="data.banner_time*1000" :height="props.height" arrow="never">
+    <el-carousel indicator-position="none" :interval="data.banner_time*1000" height="100%" arrow="never">
       <template v-if="!props.is_article">
         <el-carousel-item v-for="item in data.banners_url">
           <el-image style="width: 100%;height: 100%"
@@ -84,8 +83,13 @@ onMounted(() => {
 <style scoped lang="scss">
 .banner_container {
   width: 100%;
-  height: 100%;
+  height: 600px;
   position: relative;
+
+
+  :deep(.el-carousel) {
+    height: 100%;
+  }
 
   .title {
     position: absolute;
@@ -105,6 +109,17 @@ onMounted(() => {
       font-size: 18px;
       display: flex;
       justify-content: center;
+    }
+  }
+}
+
+@include respond-to('phone') {
+  .banner_container {
+    width: 100%;
+    height: 300px;
+
+    :deep(.el-carousel) {
+      height: 100%;
     }
   }
 }

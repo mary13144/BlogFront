@@ -1,4 +1,4 @@
-import axiosRequest from "@/service/axiosRequest";
+import {axiosRequest} from "@/service/axiosRequest";
 import type {CalenderDate, DataSum, WeekDate} from "@/types";
 
 export async function ArticleCalendar() {

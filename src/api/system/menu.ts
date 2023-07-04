@@ -1,4 +1,4 @@
-import axiosRequest from "@/service/axiosRequest";
+import {axiosRequest} from "@/service/axiosRequest";
 import type {ImageBriefData, Menu, MenuData} from "@/types";
 
 //查询menu菜单

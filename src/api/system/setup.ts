@@ -1,4 +1,4 @@
-import axiosRequest from "@/service/axiosRequest";
+import {axiosRequest} from "@/service/axiosRequest";
 
 export async function SetupQuery<T>(name: string) {
 	return await axiosRequest.get<T>("/settings", {

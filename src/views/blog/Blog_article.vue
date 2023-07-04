@@ -116,7 +116,7 @@ onMounted(async () => {
           :slogan="data.abstract"
           :banner_url="data.banner_url"
           :is_article="true"
-          height="600px"/>
+      />
     </div>
     <div class="article_main">
       <div class="left">
@@ -209,7 +209,6 @@ onMounted(async () => {
 
   .banner_wrapper {
     width: 100%;
-    height: 600px;
   }
 
   .article_main {
@@ -220,8 +219,6 @@ onMounted(async () => {
 
     .left {
       width: calc(100% - 320px);
-      min-width: 700px;
-      height: 100%;
       margin-right: 20px;
       padding: 20px;
       border-radius: 10px;
@@ -254,6 +251,10 @@ onMounted(async () => {
             margin-left: 10px;
           }
         }
+      }
+
+      .article_content {
+        width: 100%;
       }
 
       .article_comment {
@@ -324,14 +325,11 @@ onMounted(async () => {
       .left {
         width: 70%;
         min-width: 600px;
-        height: 100%;
         margin-right: 20px;
       }
 
       .right {
         width: 300px;
-        height: 100%;
-
       }
     }
   }
@@ -354,8 +352,37 @@ onMounted(async () => {
     }
   }
   @include respond-to('phone') {
-    .right {
-      display: none;
+    .article_main {
+      margin-top: 40px;
+      width: 90%;
+
+      .left {
+        width: 100%;
+        margin: 0;
+
+        .article_head {
+          .time {
+            display: flex;
+            flex-direction: column;
+
+            > span {
+              margin-bottom: 5px;
+            }
+          }
+        }
+
+        .article_content {
+          width: 100%;
+        }
+
+        .article_comment {
+          display: none;
+        }
+      }
+
+      .right {
+        display: none;
+      }
     }
   }
 }

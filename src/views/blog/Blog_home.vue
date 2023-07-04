@@ -10,7 +10,7 @@ import Blog_articlelist from "@/components/blog/Blog_articlelist.vue";
 <template>
   <div class="blog_home">
     <div class="banner_wrapper">
-      <Blog_banner :is_article="false" :id="1" height="600px"></Blog_banner>
+      <Blog_banner :is_article="false" :id="1"></Blog_banner>
     </div>
     <div class="home_main">
       <div class="left">
@@ -42,7 +42,6 @@ import Blog_articlelist from "@/components/blog/Blog_articlelist.vue";
 
   .banner_wrapper {
     width: 100%;
-    height: 600px;
   }
 
   .home_main {
@@ -103,8 +102,20 @@ import Blog_articlelist from "@/components/blog/Blog_articlelist.vue";
     }
   }
   @include respond-to('phone') {
-    .right {
-      display: none;
+    .home_main {
+      margin-top: 40px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+
+      .left {
+        width: 90%;
+        margin: 0;
+      }
+
+      .right {
+        display: none;
+      }
     }
   }
 }

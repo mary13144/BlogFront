@@ -1,4 +1,4 @@
-import axiosRequest from "@/service/axiosRequest";
+import {axiosRequest} from "@/service/axiosRequest";
 import type {Log, Page, PageData} from "@/types";
 
 export async function LogQuery(params: Page, level: number | undefined) {

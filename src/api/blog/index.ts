@@ -1,4 +1,4 @@
-import axiosRequest from "@/service/axiosRequest";
+import {axiosRequest, cacheRequest} from "@/service/axiosRequest";
 import type {
 	Article,
 	ArticleDatas,
@@ -45,7 +45,7 @@ export async function UserOwner(id: number) {
 
 //文章点赞
 export async function ArticleDigg(id: string, is_digg: boolean) {
-	return await axiosRequest.put<string>('/articles/digg', {
+	return await cacheRequest.put<string>('/articles/digg', {
 		id: id,
 		is_digg: is_digg
 	}, {})
@@ -53,7 +53,7 @@ export async function ArticleDigg(id: string, is_digg: boolean) {
 
 //文章收藏
 export async function ArticleCollection(id: string) {
-	return await axiosRequest.put<string>('/articles/collection', {
+	return await cacheRequest.put<string>('/articles/collection', {
 		id: id
 	}, {})
 }
@@ -83,7 +83,7 @@ export async function CommentDelete(id: number) {
 
 //评论点赞
 export async function CommentsDigg(id: number, is_digg: boolean) {
-	return await axiosRequest.put<string>("/comments", {
+	return await cacheRequest.put<string>("/comments", {
 		id: id,
 		is_digg: is_digg
 	}, {})

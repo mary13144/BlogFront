@@ -56,7 +56,7 @@ const srcList = ref<string[]>([])
 const total = ref<number>(0)
 const page = reactive<Page>({
   page_num: 1,
-  page_size: 2,
+  page_size: 6,
 })
 const tagSelect = ref<Select[]>([])
 const categorySelect = ref<Select[]>([])

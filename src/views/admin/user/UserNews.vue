@@ -2,7 +2,6 @@
 import Admin_table from "@/components/admin/Admin_table.vue";
 import type {News, TableColumn, UserMessage} from "@/types";
 import {onMounted, ref} from "vue";
-//@ts-ignore
 import {ElMessage, ElMessageBox} from "element-plus";
 import {NewsHistory, NewsQuery} from "@/api/user";
 import {useLoginStore} from "@/stores";
@@ -112,11 +111,13 @@ const beforeClose = (done: Function) => {
       })
 }
 const websocketConn = () => {
-  socket = new WebSocket(`ws://127.0.0.1:8080/api/messages/link?rec_id=${recUser.value.id}&send_id=${loginStore.token.user.user_id}`)
+  socket = new WebSocket(`wss://${location.host}/api/messages/link?rec_id=${recUser.value.id}&send_id=${loginStore.token.user.user_id}`)
   let ele = document.getElementById("chat")!
   socket.onopen = function () {
     console.log("连接成功")
-    ele.scrollTop = ele.scrollHeight
+    setTimeout(() => {
+      ele.scrollTop = ele.scrollHeight
+    }, 100)
   }
   socket.onmessage = function (ev) {
     let content = ev.data

@@ -128,11 +128,13 @@ const beforeClose = (done: Function) => {
       })
 }
 const websocketConn = () => {
-  socket = new WebSocket(`wss://${location.host}/api/messages/link?rec_id=${recUser.value.id}&send_id=${loginStore.token.user.user_id}`)
+  socket = new WebSocket(`wss://${location.host}/ws/api/messages/link?rec_id=${recUser.value.id}&send_id=${loginStore.token.user.user_id}`)
   let ele = document.getElementById("chat")!
   socket.onopen = function () {
     console.log("连接成功")
-    ele.scrollTop = ele.scrollHeight
+    setTimeout(() => {
+      ele.scrollTop = ele.scrollHeight
+    }, 100)
   }
   socket.onmessage = function (ev) {
     let content = ev.data
@@ -216,7 +218,7 @@ const sendMessage = () => {
               <el-input @keydown.ctrl.enter="sendMessage" v-model.trim="content" autofocus resize="none" type="textarea"
                         rows="5" size="large"/>
               <div class="button">
-                <el-button type="danger" size="default" @click="isShow = false">关闭</el-button>
+                <el-button type="danger" size="default" @click="messageShow = false">关闭</el-button>
                 <el-button type="primary" size="default" @click="sendMessage">发送</el-button>
               </div>
             </div>

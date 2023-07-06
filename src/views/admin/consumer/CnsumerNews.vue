@@ -3,7 +3,7 @@ import Admin_search from "@/components/admin/Admin_search.vue";
 import Admin_table from "@/components/admin/Admin_table.vue";
 import Admin_pages from "@/components/admin/Admin_pages.vue";
 import type {News, Page, TableColumn} from "@/types";
-import {onMounted, reactive, ref} from "vue";
+import {onBeforeMount, onMounted, reactive, ref} from "vue";
 import {ElMessage} from "element-plus";
 import {MessageQuery} from "@/api/consumer";
 //固定参数---------------------------------------------------------------------
@@ -66,7 +66,7 @@ const changeIsLoading = () => {
 }
 
 //生命周期钩子函数---------------------------------------------------------------
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

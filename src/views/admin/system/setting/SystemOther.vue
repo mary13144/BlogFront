@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {FormRules} from 'element-plus'
 import {ElMessage} from "element-plus";
-import {onMounted, reactive, ref} from "vue";
+import {onBeforeMount, onMounted, reactive, ref} from "vue";
 import type {JWT, QQ} from "@/types";
 import {SetupQuery, SetupUpdate} from "@/api/system";
 import {useRouter} from "vue-router";
@@ -66,7 +66,7 @@ const updateData = async () => {
   }, 1000)
 }
 //生命周期钩子函数
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Blog_comment from "@/components/blog/Blog_comment.vue";
-import {inject, onMounted, ref, watch} from "vue";
+import {inject, onBeforeMount, onMounted, ref, watch} from "vue";
 import {ElMessage} from "element-plus";
 import {ArticleComment, CommentList} from "@/api/blog";
 import type {CommentAdd, CommentItem} from "@/types";
@@ -77,7 +77,7 @@ watch(() => props.id, () => {
   loadingData()
   commentData.value.article_id = props.id
 })
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
   commentData.value.article_id = props.id
 })

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {Plus} from "@element-plus/icons-vue";
-import {onMounted, reactive, ref} from "vue";
+import {onBeforeMount, onMounted, reactive, ref} from "vue";
 import type {Result, SetInfo} from "@/types";
 import type {FormRules} from 'element-plus'
 import {ElMessage} from "element-plus";
@@ -76,7 +76,7 @@ const handlerError_wechat = (error: Error) => {
   ElMessage.error(error.message)
 }
 //生命周期钩子函数
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

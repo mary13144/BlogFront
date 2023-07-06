@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {FormRules} from 'element-plus'
 import {ElMessageBox} from "element-plus";
-import {onMounted, reactive, ref} from "vue";
+import {onBeforeMount, reactive, ref} from "vue";
 import type {Article_Add, ImageBriefData, Select} from "@/types";
 //响应式变量---------------------------------------------------------------------
 
@@ -57,7 +57,7 @@ const handleClose = () => {
 
 
 //生命周期钩子函数------------------------------------------------------------------------------
-onMounted(async () => {
+onBeforeMount(async () => {
   imgIndex.value = Math.floor(Math.random() * props.imageBrief.length)
   if (props.article.banner_id) {
     for (let i = 0; i < props.imageBrief.length; i++) {

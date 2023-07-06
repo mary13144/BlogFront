@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {FormRules} from 'element-plus'
 import {ElMessage} from "element-plus";
-import {onMounted, reactive, ref} from "vue";
+import {onBeforeMount, onMounted, reactive, ref} from "vue";
 import type {QiNiu} from "@/types";
 import {SetupQuery, SetupUpdate} from "@/api/system";
 //form表单验证规则
@@ -60,7 +60,7 @@ const updateData = async () => {
   ElMessage.success(res.msg)
 }
 //生命周期钩子函数
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

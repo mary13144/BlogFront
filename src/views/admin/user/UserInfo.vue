@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {FormRules} from 'element-plus'
 import {ElMessage, ElMessageBox} from "element-plus";
-import {onMounted, reactive, ref} from "vue";
+import {onBeforeMount, reactive, ref} from "vue";
 import type {EmailUpdate, PwdUpdate, Result, UserPersonalInfo} from "@/types";
 import {UserEmail, UserPwd, UserQuery, UserUpdate} from "@/api/user";
 import {Plus} from "@element-plus/icons-vue";
@@ -199,7 +199,7 @@ const handlerPwd = async () => {
   //密码为八位及以上并且大小写字母数字特殊字符三项都包括
   let strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
   if (!strongRegex.test(pwd.value.new_pwd)) {
-    ElMessage.warning("请至少使用大小写字母、数字、符号两种类型组合的密码，长度至少为8位")
+    ElMessage.warning("请使用大小写字母、数字、符号三种类型组合的密码，长度至少为8位")
     return
   }
   let res = await UserPwd(pwd.value)
@@ -240,7 +240,7 @@ const handlerLogout = () => {
       })
 }
 //生命周期钩子函数
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

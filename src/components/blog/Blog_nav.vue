@@ -2,7 +2,7 @@
 import User from "@/components/User.vue";
 import Theme from "@/components/Theme.vue";
 import {useBlogStore, useLoginStore} from "@/stores";
-import {computed, onMounted, ref, watch} from "vue";
+import {computed, onBeforeMount, onMounted, ref, watch} from "vue";
 import type {fullText, MenuBrief} from "@/types";
 import {FullTextSearch, GetMenuBrief} from "@/api/blog";
 import {Search} from '@element-plus/icons-vue'
@@ -69,7 +69,7 @@ watch(() => blogStore.is_show, () => {
     window.addEventListener("scroll", scrollHandler)
   }
 })
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
   window.addEventListener("scroll", scrollHandler)
 })

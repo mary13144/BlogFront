@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Admin_table from "@/components/admin/Admin_table.vue";
 import type {News, TableColumn, UserMessage} from "@/types";
-import {onMounted, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {NewsHistory, NewsQuery} from "@/api/user";
 import {useLoginStore} from "@/stores";
@@ -111,7 +111,7 @@ const beforeClose = (done: Function) => {
       })
 }
 const websocketConn = () => {
-  socket = new WebSocket(`wss://${location.host}/api/messages/link?rec_id=${recUser.value.id}&send_id=${loginStore.token.user.user_id}`)
+  socket = new WebSocket(`wss://${location.host}/ws/api/messages/link?rec_id=${recUser.value.id}&send_id=${loginStore.token.user.user_id}`)
   let ele = document.getElementById("chat")!
   socket.onopen = function () {
     console.log("连接成功")
@@ -163,7 +163,7 @@ const sendMessage = () => {
 }
 
 //生命周期钩子函数---------------------------------------------------------------
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

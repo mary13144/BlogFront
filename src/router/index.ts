@@ -31,5 +31,9 @@ router.beforeEach((to, form, next) => {
 		})
 		return
 	}
+	if (to.meta.role == 1 && loginStore.token.user.role != 1) {
+		ElMessage.warning("权限不足")
+		return
+	}
 	next()
 })

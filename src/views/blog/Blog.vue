@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Blog_nav from "@/components/blog/Blog_nav.vue";
 import Blog_footer from "@/components/blog/Blog_footer.vue";
-import {onMounted, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import type {SetInfo} from "@/types";
 import {SetInfoQuery} from "@/api/blog";
 import {ElMessage} from "element-plus";
@@ -25,7 +25,7 @@ const loadingData = async () => {
   data.value = res.data
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Blog_card from "@/components/blog/Blog_card.vue";
-import {onMounted, ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 import {useDark} from "@vueuse/core";
 import {ArticleTags} from "@/api/imagetext";
 import type {Tag} from "@/types";
@@ -26,7 +26,7 @@ const tagHandler = (tag: string) => {
     blogStore.tag = ""
   }
 }
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

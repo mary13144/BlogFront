@@ -7,7 +7,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 		name: "admin",
 		meta: {
 			is_login: true,
-			keep_alive: false
+			keep_alive: false,
+			role: 0
 		},
 		component: () => import("@/views/admin/Admin.vue"),
 		children: [
@@ -21,7 +22,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 				name: "home",
 				meta: {
 					index: 1,
-					keep_alive: false
+					keep_alive: false,
+					role: 0
 				},
 				component: () => import("@/views/admin/home/Home.vue")
 			},
@@ -36,7 +38,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 						meta: {
 							index: 2,
 							open: ['2'],
-							keep_alive: false
+							keep_alive: false,
+							role: 0
 						},
 						component: () => import("@/views/admin/user/UserInfo.vue")
 					},
@@ -47,6 +50,7 @@ const adminRoutes: Array<RouteRecordRaw> = [
 							index: 2,
 							open: ['2'],
 							keep_alive: false,
+							role: 1
 						},
 						component: () => import("@/views/admin/user/UserArticle.vue")
 					},
@@ -57,6 +61,7 @@ const adminRoutes: Array<RouteRecordRaw> = [
 							index: 2,
 							open: ['2'],
 							keep_alive: true,
+							role: 1
 						},
 						component: () => import("@/views/admin/user/AddArticle.vue")
 					},
@@ -66,7 +71,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 						meta: {
 							index: 2,
 							open: ['2'],
-							keep_alive: false
+							keep_alive: false,
+							role: 0
 						},
 						component: () => import("@/views/admin/user/UserCollection.vue")
 					},
@@ -76,7 +82,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 						meta: {
 							index: 2,
 							open: ['2'],
-							keep_alive: false
+							keep_alive: false,
+							role: 0,
 						},
 						component: () => import("@/views/admin/user/UserNews.vue")
 					},
@@ -93,7 +100,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 						meta: {
 							index: 3,
 							open: ['3'],
-							keep_alive: false
+							keep_alive: false,
+							role: 1
 						},
 						component: () => import("@/views/admin/Imagetext/ArticleManage.vue")
 					},
@@ -103,7 +111,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 						meta: {
 							index: 3,
 							open: ['3'],
-							keep_alive: false
+							keep_alive: false,
+							role: 1
 						},
 						component: () => import("@/views/admin/Imagetext/ArticleEditor.vue")
 					},
@@ -113,7 +122,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 						meta: {
 							index: 3,
 							open: ['3'],
-							keep_alive: false
+							keep_alive: false,
+							role: 1
 						},
 						component: () => import("@/views/admin/Imagetext/PictureManage.vue")
 					},
@@ -123,7 +133,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 						meta: {
 							index: 3,
 							open: ['3'],
-							keep_alive: false
+							keep_alive: false,
+							role: 1
 						},
 						component: () => import("@/views/admin/Imagetext/CommentManage.vue")
 					},
@@ -140,7 +151,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 						meta: {
 							index: 4,
 							open: ['4'],
-							keep_alive: false
+							keep_alive: false,
+							role: 1
 						},
 						component: () => import("@/views/admin/consumer/ConsumerList.vue")
 					},
@@ -150,7 +162,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 						meta: {
 							index: 4,
 							open: ['4'],
-							keep_alive: false
+							keep_alive: false,
+							role: 1
 						},
 						component: () => import("@/views/admin/consumer/CnsumerNews.vue")
 					},
@@ -167,7 +180,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 						meta: {
 							index: 5,
 							open: ['5'],
-							keep_alive: false
+							keep_alive: false,
+							role: 1
 						},
 						component: () => import("@/views/admin/system/SystemMenu.vue")
 					},
@@ -177,7 +191,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 						meta: {
 							index: 5,
 							open: ['5'],
-							keep_alive: false
+							keep_alive: false,
+							role: 1
 						},
 						component: () => import("@/views/admin/system/VideoRecommend.vue")
 					},
@@ -187,7 +202,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 						meta: {
 							index: 5,
 							open: ['5'],
-							keep_alive: false
+							keep_alive: false,
+							role: 1
 						},
 						component: () => import("@/views/admin/system/SystemLog.vue")
 					},
@@ -202,7 +218,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 								meta: {
 									index: "5-4",
 									open: ['5', '5-4'],
-									keep_alive: false
+									keep_alive: false,
+									role: 1
 								},
 								component: () => import("@/views/admin/system/setting/SystemSetting.vue")
 							},
@@ -212,7 +229,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 								meta: {
 									index: "5-4",
 									open: ['5', '5-4'],
-									keep_alive: false
+									keep_alive: false,
+									role: 1
 								},
 								component: () => import("@/views/admin/system/setting/SystemEmail.vue")
 							},
@@ -222,7 +240,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 								meta: {
 									index: "5-4",
 									open: ['5', '5-4'],
-									keep_alive: false
+									keep_alive: false,
+									role: 1
 								},
 								component: () => import("@/views/admin/system/setting/SystemUpload.vue")
 							},
@@ -232,7 +251,8 @@ const adminRoutes: Array<RouteRecordRaw> = [
 								meta: {
 									index: "5-4",
 									open: ['5', '5-4'],
-									keep_alive: false
+									keep_alive: false,
+									role: 1
 								},
 								component: () => import("@/views/admin/system/setting/SystemOther.vue")
 							},

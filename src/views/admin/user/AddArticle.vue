@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ElMessage} from "element-plus";
-import {onMounted, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import type {Article_Add, ImageBriefData, Select} from "@/types";
 import {ArticleCreate, ArticleQueryCategory, TagArticle} from "@/api/imagetext";
 import {useRouter} from "vue-router";
@@ -79,7 +79,7 @@ const loadingCategory = async () => {
 const handlerClose = () => {
   isShow.value = false
 }
-onMounted(() => {
+onBeforeMount(() => {
   loadingTag()
   loadingCategory()
   loadingImageBrief()

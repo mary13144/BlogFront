@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ArticleQuery} from "@/api/imagetext";
-import {onMounted, ref, watch} from "vue";
+import {onBeforeMount, onMounted, ref, watch} from "vue";
 import type {Article, Page} from "@/types";
 //@ts-ignore
 import {ElMessage} from "element-plus";
@@ -62,7 +62,7 @@ window.addEventListener("scroll", debounce(async (numberMillis: number) => {
     }
   }
 }, 100))
-onMounted(() => {
+onBeforeMount(() => {
   loadingData(false)
 })
 </script>

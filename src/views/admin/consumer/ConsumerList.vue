@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {reactive, ref} from "vue";
+import {onBeforeMount, reactive, ref} from "vue";
 import Admin_table from "@/components/admin/Admin_table.vue";
 import Admin_pages from "@/components/admin/Admin_pages.vue";
 import type {Page, TableColumn, UserInfo, UserUpdateDate} from "@/types";
@@ -170,7 +170,10 @@ const changeIsLoading = () => {
   isLoading.value = !isLoading.value
 }
 //声明周期钩子函数------------------------------------------------------------------------
-loadingData()
+onBeforeMount(()=>{
+  loadingData()
+})
+
 
 </script>
 

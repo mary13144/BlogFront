@@ -251,7 +251,7 @@ const registerHandler = async () => {
   //密码为八位及以上并且大小写字母数字特殊字符三项都包括
   let strongRegex = new RegExp("^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$", "g");
   if (!strongRegex.test(registerInfo.password)) {
-    ElMessage.warning("请至少使用大小写字母、数字、符号两种类型组合的密码，长度至少为8位")
+    ElMessage.warning("请使用大小写字母、数字、符号三种类型组合的密码，长度至少为8位")
     return
   }
   if (registerInfo.password != registerInfo.confirm_password) {

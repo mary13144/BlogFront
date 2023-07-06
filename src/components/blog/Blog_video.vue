@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import Blog_card from "@/components/blog/Blog_card.vue";
-import {onMounted, ref} from 'vue'
+import {onBeforeMount, onMounted, ref} from 'vue'
 import {VideoRecommend} from "@/api/blog";
 import type {Video} from "@/types";
 //@ts-ignore
@@ -16,7 +16,7 @@ const loadingData = async () => {
   data.value = res.data
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

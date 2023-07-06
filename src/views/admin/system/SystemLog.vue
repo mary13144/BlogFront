@@ -4,7 +4,7 @@ import Admin_table from "@/components/admin/Admin_table.vue";
 import Admin_pages from "@/components/admin/Admin_pages.vue";
 import type {Log, Page, TableColumn, Video} from "@/types";
 import {LogTypes} from "@/types";
-import {onMounted, reactive, ref} from "vue";
+import {onBeforeMount, onMounted, reactive, ref} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {LogDelete, LogQuery} from "@/api/system";
 //固定参数---------------------------------------------------------------------
@@ -134,7 +134,7 @@ const changeIsLoading = () => {
 
 
 //生命周期钩子函数---------------------------------------------------------------
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

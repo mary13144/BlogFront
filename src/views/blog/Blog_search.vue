@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, onUnmounted, ref, watch} from "vue";
+import {onBeforeMount, onMounted, onUnmounted, ref, watch} from "vue";
 import {useBlogStore} from "@/stores";
 import Blog_user from "@/components/blog/Blog_user.vue";
 import type {Article, Page, Select} from "@/types";
@@ -87,7 +87,7 @@ watch(page.value, () => {
 watch(() => blogStore.category, () => {
   loadingData()
 })
-onMounted(() => {
+onBeforeMount(() => {
   blogStore.is_show = true
   loadingData()
   loadingCategory()

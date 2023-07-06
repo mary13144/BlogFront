@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {GetMenuDetail} from "@/api/blog";
-import {onMounted, reactive} from "vue";
+import {onBeforeMount, reactive} from "vue";
 import type {Banner} from "@/types";
 import VueTyped from 'vue3typed/libs/typed/index.vue';
 import {ElMessage} from "element-plus";
@@ -31,7 +31,7 @@ const loadingData = async () => {
   data.banner_time = res.data.banner_time
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   if (!props.is_article) {
     loadingData()
   }

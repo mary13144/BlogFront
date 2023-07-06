@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, reactive, ref} from "vue";
+import {onBeforeMount, onMounted, reactive, ref} from "vue";
 import type {Image, ImageUpdateData, Page, Result, TableColumn} from "@/types";
 import {ImageType} from "@/types";
 import {ImageDelete, ImageQuery, ImageUpdate} from "@/api/imagetext";
@@ -203,7 +203,7 @@ const handlerError = (error: Error) => {
   ElMessage.error(error.message)
 }
 //声明周期钩子函数------------------------------------------------------------------------
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

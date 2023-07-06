@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Admin_table from "@/components/admin/Admin_table.vue";
 import type {ImageBriefData, Menu, MenuData, TableColumn} from "@/types";
-import {onMounted, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import {MenuBanner, MenuCreate, MenuDelete, MenuQuery, MenuUpdate} from "@/api/system";
 import {ElMessage, ElMessageBox} from "element-plus";
 //固定参数---------------------------------------------------------------------
@@ -251,7 +251,7 @@ const addShow = () => {
 }
 
 //生命周期钩子函数---------------------------------------------------------------
-onMounted(() => {
+onBeforeMount(()=>{
   loadingData()
   loadingImageBrief()
 })

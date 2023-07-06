@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, reactive, ref} from "vue";
+import {onBeforeMount, onMounted, reactive, ref} from "vue";
 import type {Article, Article_Add, ImageBriefData, Page, Select, TableColumn} from "@/types";
 import {ArticleQuery, ArticleQueryCategory, ArticleRemove, ArticleUpdate, TagArticle} from "@/api/imagetext";
 import {ElMessage, ElMessageBox} from "element-plus";
@@ -218,7 +218,7 @@ const mutiChangeData = (data: Article[]) => {
 }
 
 //声明周期钩子函数------------------------------------------------------------------------
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
   loadingTag()
   loadingCategory()

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Admin_table from "@/components/admin/Admin_table.vue";
 import type {Comment, Page, TableColumn} from "@/types";
-import {onMounted, reactive, ref} from "vue";
+import {onBeforeMount, onMounted, reactive, ref} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {CommentQuery, CommentRemove} from "@/api/imagetext";
 import Admin_search from "@/components/admin/Admin_search.vue";
@@ -95,7 +95,7 @@ const changeIsLoading = () => {
 
 
 //生命周期钩子函数---------------------------------------------------------------
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

@@ -2,7 +2,7 @@
 import Admin_md from "@/components/admin/Admin_md.vue";
 import {useRoute, useRouter} from "vue-router";
 import {ArticleContent, ArticleUpdate} from "@/api/imagetext";
-import {onMounted, ref} from "vue";
+import {onBeforeMount, ref} from "vue";
 import {ElMessage, ElMessageBox} from "element-plus";
 import {useAdminStore} from "@/stores";
 //响应式变量------------------------------------------------------------------
@@ -55,7 +55,7 @@ const onSave = async () => {
 
 }
 //生命周期钩子函数---------------------------------------------------------------
-onMounted(() => {
+onBeforeMount(() => {
   loadingArticle()
 })
 </script>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import type {MenuBrief} from "@/types";
 import {GetMenuBrief} from "@/api/blog";
 import {ElMessage} from "element-plus";
@@ -19,7 +19,7 @@ const loadingData = async () => {
   data.value = res.data
 }
 
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

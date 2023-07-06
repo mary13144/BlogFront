@@ -3,7 +3,7 @@ import Admin_search from "@/components/admin/Admin_search.vue";
 import Admin_table from "@/components/admin/Admin_table.vue";
 import Admin_pages from "@/components/admin/Admin_pages.vue";
 import type {Page, TableColumn, Video, VideoData} from "@/types";
-import {onMounted, reactive, ref} from "vue";
+import {onBeforeMount, reactive, ref} from "vue";
 import {VideoCreate, VideoDelete, VideoQuery, VideoUpdate} from "@/api/system";
 import {ElMessage, ElMessageBox} from "element-plus";
 //固定参数---------------------------------------------------------------------
@@ -182,7 +182,7 @@ const updateShow = (data: Video) => {
 }
 
 //生命周期钩子函数---------------------------------------------------------------
-onMounted(() => {
+onBeforeMount(() => {
   loadingData()
 })
 </script>

@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import Blog_banner from "@/components/blog/Blog_banner.vue";
 import {useRoute} from "vue-router";
-import {onMounted, provide, ref} from "vue";
+import {onBeforeMount, onMounted, provide, ref} from "vue";
 import type {Article} from "@/types";
 import {ArticleCollection, ArticleDetail, ArticleDigg} from "@/api/blog";
-//@ts-ignore
 import {ElMessage} from "element-plus";
 import Blog_user from "@/components/blog/Blog_user.vue";
 import {getFormatDate} from "@/utils/date";
@@ -96,7 +95,7 @@ const comment_number = (add: boolean) => {
   }
 }
 provide("comment", comment_number)
-onMounted(async () => {
+onBeforeMount(async () => {
   await loadingData()
   if (route.hash) {
     setTimeout(() => {

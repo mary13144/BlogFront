@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type {FormRules} from 'element-plus'
 import {ElMessageBox} from "element-plus";
-import {onBeforeMount, reactive, ref} from "vue";
+import {onActivated, onBeforeMount, reactive, ref} from "vue";
 import type {Article_Add, ImageBriefData, Select} from "@/types";
 //响应式变量---------------------------------------------------------------------
 
@@ -69,6 +69,18 @@ onBeforeMount(async () => {
   }
   await changeImage()
 })
+onActivated(async () => {
+  imgIndex.value = Math.floor(Math.random() * props.imageBrief.length)
+  if (props.article.banner_id) {
+    for (let i = 0; i < props.imageBrief.length; i++) {
+      if (props.article.banner_id == props.imageBrief[i].id) {
+        imgIndex.value = i
+        break
+      }
+    }
+  }
+  await changeImage()
+})
 </script>
 
 <template>
@@ -124,7 +136,7 @@ onBeforeMount(async () => {
               </el-option>
             </el-select>
             <el-image :src="imgPath" style="height: 100px;margin-top: 10px;margin-left: 10px"
-                      fit="fill"/>
+                      fit="fill" :lazy="true"/>
           </el-form-item>
           <el-form-item label="文章标签：" prop="tags">
             <el-select v-model="props.article.tags"

@@ -175,9 +175,8 @@ const menuHandler = (route: Admin_aside, parent: Admin_aside | undefined, upper_
   })
 }
 
-onBeforeRouteUpdate((to, from, next) => {
+onBeforeRouteUpdate((to, from) => {
   loginStore.token.user.role != 2 && menu.value!.open(to.meta.index)
-  next()
 })
 onBeforeMount(() => {
   open = route.meta.open as string[]

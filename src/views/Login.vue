@@ -311,7 +311,7 @@ const sendCode = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url("/resources/image/loginBackground.jpg");
+  background-image: url("https://img.mwxblog.com/bg/loginBackground.jpg");
   background-size: 100%;
 
   :deep(.el-input__inner) {
@@ -491,7 +491,7 @@ const sendCode = async () => {
       height: 400px;
       width: 350px;
       padding: 20px;
-      background-image: url("/resources/image/blog.jpg");
+      background-image: url("https://img.mwxblog.com/bg/blog.jpg");
       background-size: 105%;
       display: flex;
       flex-direction: column;

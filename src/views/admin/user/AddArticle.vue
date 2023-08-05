@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {ElMessage} from "element-plus";
-import {onBeforeMount, onMounted, ref} from "vue";
+import {onActivated, onBeforeMount, ref} from "vue";
 import type {Article_Add, ImageBriefData, Select} from "@/types";
 import {ArticleCreate, ArticleQueryCategory, TagArticle} from "@/api/imagetext";
 import {useRouter} from "vue-router";
@@ -46,6 +46,15 @@ const confirmClick = async () => {
   await router.push({
     name: "user_article"
   })
+  article.value = {
+    id: "",
+    title: "",
+    abstract: "",
+    banner_id: undefined,
+    category: "",
+    content: "",
+    tags: [],
+  }
   adminStore.addTab({title: "我的文章", name: "user_article"})
   adminStore.removeTab({title: "添加文章", name: "add_article"})
   return
@@ -79,7 +88,13 @@ const loadingCategory = async () => {
 const handlerClose = () => {
   isShow.value = false
 }
+
 onBeforeMount(() => {
+  loadingTag()
+  loadingCategory()
+  loadingImageBrief()
+})
+onActivated(() => {
   loadingTag()
   loadingCategory()
   loadingImageBrief()

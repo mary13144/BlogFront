@@ -31,7 +31,7 @@ const props = defineProps<{
       </div>
       <div class="bei_an">
         <el-image src="/resources/footer/badges.png" style="height: 25px" loading="lazy" fit="fill"/>
-        <p>{{ props.bei_an }}</p>
+        <a href="https://beian.miit.gov.cn/" target="_blank">{{ props.bei_an }}</a>
       </div>
     </div>
     <div class="right">

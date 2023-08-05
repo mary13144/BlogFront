@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import {onBeforeMount, onMounted, onUnmounted, ref, watch} from "vue";
+import {onBeforeMount, onUnmounted, ref, watch} from "vue";
 import {useBlogStore} from "@/stores";
 import Blog_user from "@/components/blog/Blog_user.vue";
 import type {Article, Page, Select} from "@/types";
 import {ArticleQuery, ArticleQueryCategory} from "@/api/imagetext";
-//@ts-ignore
 import {ElMessage} from "element-plus";
 import {getFormatDate} from "@/utils/date";
 import {useRouter} from "vue-router";
@@ -49,7 +48,7 @@ const router = useRouter()
 const blogStore = useBlogStore()
 //函数----------------------------------------------------------------------------
 const loadingData = async () => {
-  let res = await ArticleQuery(page.value, blogStore.tag, blogStore.category, false)
+  let res = await ArticleQuery(page.value, "", blogStore.category, false)
   if (res.code) {
     ElMessage.error(res.msg)
     return
